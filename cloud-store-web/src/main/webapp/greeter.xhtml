@@ -36,10 +36,29 @@
         <h:form id="greetForm">
             <h:panelGrid columns="2">
                 <h:outputLabel>Name:</h:outputLabel>
-                <h:inputText value="#{name}" />
-                <h:commandButton id="add" value="Greet" action="#{greeter.saveProduct(name)}">
+                <h:inputText value="#{title}" />
+                <h:outputLabel>Name:</h:outputLabel>
+                <h:inputText value="#{description}" />
+                <h:outputLabel>Name:</h:outputLabel>
+                <h:inputText value="#{fullDescription}" />
+                <h:commandButton id="search" value="Search" action="#{greeter.search(title, description, fullDescription)}" >
                 </h:commandButton>
             </h:panelGrid>
+            <h:dataTable value="#{greeter.productList}"
+            	var="product">
+            	<h:column>
+            		<h:outputText value="#{product.id}" />
+            	</h:column>
+            	<h:column>
+            		<h:outputText value="#{product.title}" />
+            	</h:column>
+            	<h:column>
+            		<h:outputText value="#{product.description}" />
+            	</h:column>
+            	<h:column>
+            		<h:outputText value="#{product.fullDescription}" />
+            	</h:column>
+            </h:dataTable>
         </h:form>
     </div>
 

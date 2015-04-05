@@ -19,12 +19,18 @@ package net.dragberry.cloudstore.controller;
 import net.dragberry.cloudstore.business.ProductService;
 import net.dragberry.cloudstore.business.ProductServiceLocal;
 import net.dragberry.cloudstore.domain.Product;
+import net.dragberry.cloudstore.domain.Product_;
+import net.dragberry.cloudstore.query.ProductQuery;
+import net.dragberry.cloudstore.query.sort.SortItem;
+import net.dragberry.cloudstore.query.sort.SortOrder;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -38,6 +44,8 @@ import java.util.Set;
 public class Greeter implements Serializable {
 
 	private static final long serialVersionUID = 9036218023267311356L;
+	
+	private List<Product> productList = new ArrayList<Product>();
 
 	/**
      * Injected GreeterEJB client
@@ -56,11 +64,25 @@ public class Greeter implements Serializable {
      * @param name
      *            The name of the person to be greeted
      */
-    public void saveProduct(String name) {
-    	Product p = new Product();
-    	p.setProductName(name);
-    	
-    	productService.createProduct(p);
+    public void search(String title, String description, String fullDescription) {
+        ProductQuery p = new ProductQuery();
+    	p.setTitle(title);
+    	p.setDescription(description);
+    	p.setFullDescription(fullDescription);
+    	p.addSortItem(Product_.description, SortOrder.DESCENDING);
+    	List<Long> categoryIds = new ArrayList<Long>();
+    	categoryIds.add(1L);
+    	categoryIds.add(3L);
+    	p.setCategoryIdList(categoryIds);
+    	productList = productService.fetchProducts(p);
+    }
+    
+    public List<Product> getProductList() {
+        return productList;
+    }
+    
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
     }
 
     /**

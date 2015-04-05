@@ -14,7 +14,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "PRODUCT")
+@Table(name = "product")
 public class Product extends AbstractEntity {
 
     private static final long serialVersionUID = 8718806985762163348L;
@@ -22,29 +22,57 @@ public class Product extends AbstractEntity {
     /**
      * A product title
      */
-    @Column(name = "PRODUCT_NAME")
-    private String productName;
+    @Column(name = "title")
+    private String title;
+    
+    /**
+     * A product title
+     */
+    @Column(name = "description")
+    private String description;
+    
+    /**
+     * A product title
+     */
+    @Column(name = "full_description")
+    private String fullDescription;
     
     /**
      * A product can be associated with 0 or more categories.
      */
     @ManyToMany(mappedBy = "products")
-    private Set<Category> category;
+    private Set<Category> categories;
 
-    public String getProductName() {
-        return productName;
+    public String getTitle() {
+        return title;
     }
 
-    public void setProductName(String title) {
-        this.productName = title;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Set<Category> getCategory() {
-        return category;
+    public Set<Category> getCategories() {
+        return categories;
     }
 
-    public void setCategory(Set<Category> category) {
-        this.category = category;
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getFullDescription() {
+        return fullDescription;
+    }
+
+    public void setFullDescription(String fullDescription) {
+        this.fullDescription = fullDescription;
     }
 
 }

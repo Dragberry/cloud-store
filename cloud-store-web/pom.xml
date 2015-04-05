@@ -28,6 +28,13 @@
 	<name>Cloud Store Web</name>
 
 	<dependencies>
+		
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<!-- Import the ejb project so that the JSF managed bean can use the EJB -->
 		<dependency>

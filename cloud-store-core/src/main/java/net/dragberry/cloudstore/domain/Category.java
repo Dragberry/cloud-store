@@ -19,8 +19,8 @@ public class Category extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     
-    @Column(name = "CATEGORY_NAME")
-    private String categoryName;
+    @Column(name = "title")
+    private String title;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "CATEGORY_PRODUCT", 
@@ -38,12 +38,14 @@ public class Category extends AbstractEntity {
     @OneToMany(cascade = CascadeType.PERSIST)
     private Set<Category> subCategories = new HashSet<Category>();
 
-    public String getCategoryName() {
-        return categoryName;
+    
+
+    public String getTitle() {
+        return title;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Set<Product> getProducts() {
