@@ -25,8 +25,6 @@ public class ProductService implements ProductServiceLocal {
 
     @Override
     public List<Product> fetchProducts(ProductQuery query) {
-        
-        
         return defaultProductDao.fetchProducts(query);
     }
 

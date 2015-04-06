@@ -27,21 +27,27 @@
 
     <h1>Greeter Service</h1>
     <div id="container">
-        <h:form id="response">
-            <h:panelGrid columns="2">
-                <h:outputLabel>Response:</h:outputLabel>
-                <h:outputLabel value="#{greeter.message}" />
-            </h:panelGrid>
-        </h:form>
         <h:form id="greetForm">
             <h:panelGrid columns="2">
-                <h:outputLabel>Name:</h:outputLabel>
+                <h:outputLabel>Title:</h:outputLabel>
                 <h:inputText value="#{title}" />
-                <h:outputLabel>Name:</h:outputLabel>
+                <h:outputLabel>Description:</h:outputLabel>
                 <h:inputText value="#{description}" />
-                <h:outputLabel>Name:</h:outputLabel>
+                <h:outputLabel>Full description:</h:outputLabel>
                 <h:inputText value="#{fullDescription}" />
-                <h:commandButton id="search" value="Search" action="#{greeter.search(title, description, fullDescription)}" >
+                <h:outputLabel>Min cost:</h:outputLabel>
+                <h:inputText value="#{minCost}" />
+                <h:outputLabel>Max cost:</h:outputLabel>
+                <h:inputText value="#{maxCost}" />
+                <h:outputLabel>Categories:</h:outputLabel>
+                <h:selectManyListbox value="#{greeter.selectedCategoryIds}">
+                	<f:selectItems
+                		value="#{greeter.categoryList}"
+                		var="category"
+                		itemLabel="#{category.title}"
+                		itemValue="#{category.id}" />
+                </h:selectManyListbox>
+                <h:commandButton id="search" value="Search" action="#{greeter.search(title, description, fullDescription, minCost, maxCost)}" >
                 </h:commandButton>
             </h:panelGrid>
             <h:dataTable value="#{greeter.productList}"
@@ -57,6 +63,9 @@
             	</h:column>
             	<h:column>
             		<h:outputText value="#{product.fullDescription}" />
+            	</h:column>
+            	<h:column>
+            		<h:outputText value="#{product.cost}" />
             	</h:column>
             </h:dataTable>
         </h:form>

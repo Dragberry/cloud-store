@@ -1,5 +1,6 @@
 package net.dragberry.cloudstore.domain;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -38,6 +39,12 @@ public class Product extends AbstractEntity {
     private String fullDescription;
     
     /**
+     * A product title
+     */
+    @Column(name = "cost")
+    private BigDecimal cost;
+    
+    /**
      * A product can be associated with 0 or more categories.
      */
     @ManyToMany(mappedBy = "products")
@@ -74,5 +81,13 @@ public class Product extends AbstractEntity {
     public void setFullDescription(String fullDescription) {
         this.fullDescription = fullDescription;
     }
+
+	public BigDecimal getCost() {
+		return cost;
+	}
+
+	public void setCost(BigDecimal cost) {
+		this.cost = cost;
+	}
 
 }

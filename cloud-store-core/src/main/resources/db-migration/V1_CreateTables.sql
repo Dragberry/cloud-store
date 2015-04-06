@@ -8,6 +8,7 @@ CREATE TABLE product (
 	title VARCHAR(255),
 	description VARCHAR(512),
 	full_description VARCHAR(1024),
+	cost NUMERIC(10,2),
 	PRIMARY KEY (id)
 ) ENGINE=INNODB;
 
@@ -25,12 +26,24 @@ CREATE TABLE category_product (
 	CONSTRAINT FK_PRODUCT_CATEGORY FOREIGN KEY (product_id) REFERENCES product (id)
 ) ENGINE=INNODB;
 
-INSERT INTO product (id, title, description, full_description) VALUES (1, 'productA', 'Description A', 'Full description A');
-INSERT INTO product (id, title, description, full_description) VALUES (2, 'BproductB', 'B Description B', 'B Full description B');
-INSERT INTO product (id, title, description, full_description) VALUES (3, 'Ligtn balloon red', 'Light red ballon', 'Light red baloon');
+INSERT INTO product (id, title, description, full_description, cost) VALUES (1, 'Latex balloon green', 'Description Latex balloon green', 'Full description Latex balloon green', '1000.00');
+INSERT INTO product (id, title, description, full_description, cost) VALUES (2, 'Metalic balloon white', 'Description Metalic balloon white', 'Full description Metalic balloon white','2500.00');
+INSERT INTO product (id, title, description, full_description, cost) VALUES (3, 'Ligtn balloon red', 'Light red ballon Description', 'Full description Light red baloon', '1250.00');
+INSERT INTO product (id, title, description, full_description, cost) VALUES (4, 'Hear with Heart', 'wool hear with heart', 'wool hear with heart', '80000.00');
+INSERT INTO product (id, title, description, full_description, cost) VALUES (5, 'Turtle', 'Wool turtle', 'Wool turtle', '50000.00');
+
 
 INSERT INTO category (id, title, parent_id) VALUES (1, 'Balloons', NULL);
 INSERT INTO category (id, title, parent_id) VALUES (2, 'Ligth Balloons', 1);
+INSERT INTO category (id, title, parent_id) VALUES (3, 'Latex Balloons', 1);
+INSERT INTO category (id, title, parent_id) VALUES (4, 'Metalic Balloons', 1);
+INSERT INTO category (id, title, parent_id) VALUES (5, 'Wool toys', NULL);
 
 INSERT INTO category_product (category_id, product_id) VALUES (1, 3);
 INSERT INTO category_product (category_id, product_id) VALUES (2, 3);
+INSERT INTO category_product (category_id, product_id) VALUES (1, 2);
+INSERT INTO category_product (category_id, product_id) VALUES (4, 2);
+INSERT INTO category_product (category_id, product_id) VALUES (1, 1);
+INSERT INTO category_product (category_id, product_id) VALUES (3, 1);
+INSERT INTO category_product (category_id, product_id) VALUES (5, 4);
+INSERT INTO category_product (category_id, product_id) VALUES (5, 5);

@@ -16,22 +16,26 @@
  */
 package net.dragberry.cloudstore.controller;
 
-import net.dragberry.cloudstore.business.ProductService;
+import net.dragberry.cloudstore.business.CategoryServiceLocal;
 import net.dragberry.cloudstore.business.ProductServiceLocal;
+import net.dragberry.cloudstore.domain.Category;
+import net.dragberry.cloudstore.domain.Category_;
 import net.dragberry.cloudstore.domain.Product;
 import net.dragberry.cloudstore.domain.Product_;
 import net.dragberry.cloudstore.query.ProductQuery;
-import net.dragberry.cloudstore.query.sort.SortItem;
 import net.dragberry.cloudstore.query.sort.SortOrder;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * A simple managed bean that is used to invoke the GreeterEJB and store the
@@ -46,34 +50,38 @@ public class Greeter implements Serializable {
 	private static final long serialVersionUID = 9036218023267311356L;
 	
 	private List<Product> productList = new ArrayList<Product>();
+	
+	private List<Category> categoryList = new ArrayList<Category>();
+	
+	private List<String> selectedCategoryIds = new  ArrayList<String>();
 
-	/**
-     * Injected GreeterEJB client
-     */
     @EJB
     private ProductServiceLocal productService;
+    
+    @EJB
+    private CategoryServiceLocal categoryService;
+    
+    @PostConstruct
+    public void fetchInitializationData() {
+    	categoryList = categoryService.fetchCategories();
+    }
 
-    /**
-     * Stores the response from the call to greeterEJB.sayHello(...)
-     */
-    private String message;
-
-    /**
-     * Invoke greeterEJB.sayHello(...) and store the message
-     * 
-     * @param name
-     *            The name of the person to be greeted
-     */
-    public void search(String title, String description, String fullDescription) {
+    public void search(String title, String description, String fullDescription, String minCost, String maxCost) {
         ProductQuery p = new ProductQuery();
-    	p.setTitle(title);
+        p.setTitle(title);
     	p.setDescription(description);
     	p.setFullDescription(fullDescription);
-    	p.addSortItem(Product_.description, SortOrder.DESCENDING);
-    	List<Long> categoryIds = new ArrayList<Long>();
-    	categoryIds.add(1L);
-    	categoryIds.add(3L);
-    	p.setCategoryIdList(categoryIds);
+    	p.addSortItem(Product_.description.getName(), SortOrder.DESCENDING, Product_.description.getDeclaringType().getClass(), 0);
+    	p.addSortItem(Product_.id.getName(), SortOrder.ASCENDING, Product_.id.getDeclaringType().getClass(), 2);
+    	p.addSortItem(Product_.title.getName(), SortOrder.DESCENDING, Product_.title.getDeclaringType().getClass(), 1);
+    	p.addSortItem(Category_.title.getName(), SortOrder.DESCENDING, Category_.title.getDeclaringType().getClass(), 1);
+    	List<Long> ids = new ArrayList<Long>();
+    	for (String id : selectedCategoryIds) {
+    		ids.add(Long.valueOf(id));
+    	}
+    	p.setCategoryIdList(ids);
+    	p.setMinCost(StringUtils.isBlank(minCost) ? null : new BigDecimal(minCost));
+    	p.setMaxCost(StringUtils.isBlank(maxCost) ? null : new BigDecimal(maxCost));
     	productList = productService.fetchProducts(p);
     }
     
@@ -85,14 +93,20 @@ public class Greeter implements Serializable {
         this.productList = productList;
     }
 
-    /**
-     * Get the greeting message, customized with the name of the person to be
-     * greeted.
-     * 
-     * @return message. The greeting message.
-     */
-    public String getMessage() {
-        return message;
-    }
+    public List<Category> getCategoryList() {
+		return categoryList;
+	}
+
+	public void setCategoryList(List<Category> categoryList) {
+		this.categoryList = categoryList;
+	}
+
+	public List<String> getSelectedCategoryIds() {
+		return selectedCategoryIds;
+	}
+
+	public void setSelectedCategoryIds(List<String> selectedCategoryIds) {
+		this.selectedCategoryIds = selectedCategoryIds;
+	}
 
 }

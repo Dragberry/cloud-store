@@ -1,12 +1,12 @@
 package net.dragberry.cloudstore.query;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
-import javax.persistence.metamodel.SingularAttribute;
-
-import net.dragberry.cloudstore.domain.Product;
 import net.dragberry.cloudstore.query.sort.SortItem;
 import net.dragberry.cloudstore.query.sort.SortOrder;
 
@@ -22,10 +22,14 @@ public class ProductQuery implements Serializable {
 
     private String fullDescription;
     
-    private List<SortItem> sortList;
+    private BigDecimal minCost;
+    
+    private BigDecimal maxCost;
+    
+    private Set<SortItem> sortList = new TreeSet<SortItem>();
     
     private List<Long> categoryIdList = new ArrayList<Long>();
-
+    
     public Long getId() {
         return id;
     }
@@ -66,18 +70,36 @@ public class ProductQuery implements Serializable {
         this.categoryIdList = categoryIdList;
     }
 
-    public List<SortItem> getSortList() {
+    public BigDecimal getMinCost() {
+		return minCost;
+	}
+
+	public void setMinCost(BigDecimal minCost) {
+		this.minCost = minCost;
+	}
+
+	public BigDecimal getMaxCost() {
+		return maxCost;
+	}
+
+	public void setMaxCost(BigDecimal maxCost) {
+		this.maxCost = maxCost;
+	}
+
+	public Set<SortItem> getSortList() {
         return sortList;
     }
     
-    public void addSortItem(SingularAttribute<Product,String> attribute, SortOrder sortOrder) {
-        if (sortList == null) {
-            sortList = new ArrayList<SortItem>();
-        }
+    public void addSortItem(String field, SortOrder sortOrder, Class<?> type, Integer order) {
         SortItem sortItem = new SortItem();
         sortItem.setDirection(sortOrder);
-        sortItem.setAttribute(attribute);
-        sortList.add(sortItem);
+        sortItem.setField(field);
+        sortItem.setOrder(order);
+        sortItem.setType(type);
+        if (sortList == null) {
+        	sortList = new TreeSet<SortItem>();
+        }
+       sortList.add(sortItem);
     }
 
 }

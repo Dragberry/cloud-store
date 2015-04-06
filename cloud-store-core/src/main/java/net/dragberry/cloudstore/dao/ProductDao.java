@@ -10,5 +10,5 @@ public interface ProductDao {
 	Product saveProduct(Product product);
 	
 	List<Product> fetchProducts(ProductQuery query);
-
+	
 }
