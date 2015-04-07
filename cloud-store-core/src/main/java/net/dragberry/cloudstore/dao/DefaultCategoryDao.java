@@ -21,7 +21,22 @@ public class DefaultCategoryDao extends AbstractEntityService<Category> implemen
 	public List<Category> fetchCategories() {
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Category> cq = cb.createQuery(Category.class);
-		cq.from(Category.class);
+		Root<Category> categoryRoot = cq.from(Category.class);
+		Predicate where = cb.isNull(categoryRoot.get(Category_.parentCategory));
+		cq.where(where);
+		List<Category> cs = getEntityManager().createQuery(cq).getResultList();
+		for (Category c : cs) {
+			fetchCategories(c);
+		}
+		return cs;
+	}
+	
+	private List<Category> fetchCategories(Category parentCategory) {
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Category> cq = cb.createQuery(Category.class);
+		Root<Category> categoryRoot = cq.from(Category.class);
+		Predicate where = cb.equal(categoryRoot.get(Category_.parentCategory), parentCategory);
+		cq.where(where);
 		return getEntityManager().createQuery(cq).getResultList();
 	}
 	

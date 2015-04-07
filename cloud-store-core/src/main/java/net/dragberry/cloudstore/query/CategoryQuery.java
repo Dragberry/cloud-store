@@ -3,6 +3,7 @@ package net.dragberry.cloudstore.query;
 import java.io.Serializable;
 import java.util.List;
 
+import net.dragberry.cloudstore.domain.Category;
 import net.dragberry.cloudstore.query.sort.SortItem;
 
 public class CategoryQuery implements Serializable {
@@ -14,5 +15,9 @@ public class CategoryQuery implements Serializable {
     private String title;
     
     private List<SortItem> sortList;
+    
+    private Category parentCategory;
+    
+    
 
 }

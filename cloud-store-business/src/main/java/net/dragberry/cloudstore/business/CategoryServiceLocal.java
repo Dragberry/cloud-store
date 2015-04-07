@@ -11,4 +11,6 @@ public interface CategoryServiceLocal {
 
 	List<Category> fetchCategories();
 	
+	List<Category> buildCategoryTree(List<Category> categoryList);
+	
 }
