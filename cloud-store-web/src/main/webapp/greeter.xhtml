@@ -51,7 +51,8 @@
                 </h:commandButton>
             </h:panelGrid>
             <h:dataTable value="#{greeter.productList}"
-            	var="product">
+            	var="product"
+            	style="border: 1px solid">
             	<h:column>
             		<h:outputText value="#{product.id}" />
             	</h:column>

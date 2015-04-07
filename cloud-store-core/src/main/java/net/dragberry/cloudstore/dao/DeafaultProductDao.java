@@ -20,6 +20,8 @@ import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.SingularAttribute;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.dragberry.cloudstore.domain.Category;
 import net.dragberry.cloudstore.domain.Category_;
@@ -31,6 +33,8 @@ import net.dragberry.cloudstore.query.sort.SortItem;
 @Stateless
 public class DeafaultProductDao extends AbstractEntityService<Product> implements ProductDao {
     
+    private final static Log LOGGER = LogFactory.getLog(DefaultCategoryDao.class);
+    
     private static final String PERCENT_QUOTE = "%";
 	
 	@Override
@@ -40,6 +44,7 @@ public class DeafaultProductDao extends AbstractEntityService<Product> implement
 
     @Override
     public List<Product> fetchProducts(ProductQuery productQuery) {
+        LOGGER.info("Entering into DefaultProductDao.fetchProducts...");
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Product> cq = cb.createQuery(Product.class);
         Root<Product> root = cq.from(Product.class);
@@ -53,7 +58,7 @@ public class DeafaultProductDao extends AbstractEntityService<Product> implement
         where = addLikeExpression(productQuery.getFullDescription(), Product_.fullDescription, where, cb, root);
         where = addRangeExpression(productQuery.getMinCost(), productQuery.getMaxCost(), Product_.cost, where, cb, root);
         
-        Join<Product, Category> joinProductCategory = root.join(Product_.categories, JoinType.LEFT);;
+        Join<Product, Category> joinProductCategory = (Join<Product, Category>) root.fetch(Product_.categories, JoinType.LEFT);;
         if (!productQuery.getCategoryIdList().isEmpty()) {
             In<Long> categories = cb.in(joinProductCategory.get(Category_.id));
             for (Long categoryId : productQuery.getCategoryIdList()) {

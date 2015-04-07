@@ -53,5 +53,10 @@ public class SortItem implements Comparable<SortItem>, Serializable {
 		}
 		this.order = order;
 	}
+	
+	@Override
+	public String toString() {
+	    return "[order=" + order + "; type=" + type + "; field=" + field +  ";]";
+	}
 
 }

@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.dragberry.cloudstore.query.sort.SortItem;
 import net.dragberry.cloudstore.query.sort.SortOrder;
 
@@ -99,6 +102,7 @@ public class ProductQuery implements Serializable {
         if (sortList == null) {
         	sortList = new TreeSet<SortItem>();
         }
+        Log log = LogFactory.getLog(SortItem.class);
        sortList.add(sortItem);
     }
 

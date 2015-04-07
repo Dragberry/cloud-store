@@ -71,10 +71,10 @@ public class Greeter implements Serializable {
         p.setTitle(title);
     	p.setDescription(description);
     	p.setFullDescription(fullDescription);
-    	p.addSortItem(Product_.description.getName(), SortOrder.DESCENDING, Product_.description.getDeclaringType().getClass(), 0);
-    	p.addSortItem(Product_.id.getName(), SortOrder.ASCENDING, Product_.id.getDeclaringType().getClass(), 2);
-    	p.addSortItem(Product_.title.getName(), SortOrder.DESCENDING, Product_.title.getDeclaringType().getClass(), 1);
-    	p.addSortItem(Category_.title.getName(), SortOrder.DESCENDING, Category_.title.getDeclaringType().getClass(), 1);
+    	p.addSortItem(Product_.description.getName(), SortOrder.DESCENDING, Product.class, 0);
+    	p.addSortItem(Product_.id.getName(), SortOrder.ASCENDING, Product.class, 2);
+    	p.addSortItem(Product_.title.getName(), SortOrder.DESCENDING, Product.class, 1);
+    	p.addSortItem(Category_.title.getName(), SortOrder.DESCENDING, Category.class, 1);
     	List<Long> ids = new ArrayList<Long>();
     	for (String id : selectedCategoryIds) {
     		ids.add(Long.valueOf(id));
