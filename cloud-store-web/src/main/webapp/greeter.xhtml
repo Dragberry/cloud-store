@@ -29,6 +29,8 @@
     <div id="container">
         <h:form id="greetForm">
             <h:panelGrid columns="2">
+            	<h:outputLabel>Search request:</h:outputLabel>
+                <h:inputText value="#{searchRequest}" />
                 <h:outputLabel>Title:</h:outputLabel>
                 <h:inputText value="#{title}" />
                 <h:outputLabel>Description:</h:outputLabel>
@@ -47,26 +49,52 @@
                 		itemLabel="#{category.title}"
                 		itemValue="#{category.id}" />
                 </h:selectManyListbox>
-                <h:commandButton id="search" value="Search" action="#{greeter.search(title, description, fullDescription, minCost, maxCost)}" >
+                <h:commandButton id="search" value="Search" action="#{greeter.search(searchRequest, title, description, fullDescription, minCost, maxCost)}" >
                 </h:commandButton>
             </h:panelGrid>
             <h:dataTable value="#{greeter.productList}"
             	var="product"
             	style="border: 1px solid">
             	<h:column>
+            		<f:facet name="header">
+            			<h:outputText value="ID" />
+            		</f:facet>
             		<h:outputText value="#{product.id}" />
             	</h:column>
             	<h:column>
+            		<f:facet name="header">
+            			<h:outputText value="Title" />
+            		</f:facet>
             		<h:outputText value="#{product.title}" />
             	</h:column>
             	<h:column>
+            		<f:facet name="header">
+            			<h:outputText value="Description" />
+            		</f:facet>
             		<h:outputText value="#{product.description}" />
             	</h:column>
             	<h:column>
+            		<f:facet name="header">
+            			<h:outputText value="Full Description" />
+            		</f:facet>
             		<h:outputText value="#{product.fullDescription}" />
             	</h:column>
             	<h:column>
+            		<f:facet name="header">
+            			<h:outputText value="Cost" />
+            		</f:facet>
             		<h:outputText value="#{product.cost}" />
+            	</h:column>
+            	<h:column>
+            		<f:facet name="header">
+            			<h:outputText value="Categories" />
+            		</f:facet>
+            		<h:dataTable value="#{product.categoryList}"
+            			var="category">
+            			<h:column>
+            				<h:outputText value="#{category.title}" />
+            			</h:column>
+            		</h:dataTable>
             	</h:column>
             </h:dataTable>
         </h:form>

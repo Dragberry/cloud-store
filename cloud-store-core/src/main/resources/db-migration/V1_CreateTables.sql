@@ -38,11 +38,14 @@ INSERT INTO category (id, title, parent_id) VALUES (2, 'Ligth Balloons', 1);
 INSERT INTO category (id, title, parent_id) VALUES (3, 'Latex Balloons', 1);
 INSERT INTO category (id, title, parent_id) VALUES (4, 'Metalic Balloons', 1);
 INSERT INTO category (id, title, parent_id) VALUES (5, 'Wool toys', NULL);
+INSERT INTO category (id, title, parent_id) VALUES (6, 'Metallic Balloons Round', 4);
+INSERT INTO category (id, title, parent_id) VALUES (7, 'Metallic Balloons Figured', 4);
 
 INSERT INTO category_product (category_id, product_id) VALUES (1, 3);
 INSERT INTO category_product (category_id, product_id) VALUES (2, 3);
 INSERT INTO category_product (category_id, product_id) VALUES (1, 2);
 INSERT INTO category_product (category_id, product_id) VALUES (4, 2);
+INSERT INTO category_product (category_id, product_id) VALUES (6, 2);
 INSERT INTO category_product (category_id, product_id) VALUES (1, 1);
 INSERT INTO category_product (category_id, product_id) VALUES (3, 1);
 INSERT INTO category_product (category_id, product_id) VALUES (5, 4);

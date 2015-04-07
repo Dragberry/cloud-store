@@ -6,5 +6,7 @@ import net.dragberry.cloudstore.domain.Category;
 public interface CategoryDao {
 	
 	List<Category> fetchCategories();
+	
+	List<Category> fetchCategoriesForProduct(Long productId);
 
 }

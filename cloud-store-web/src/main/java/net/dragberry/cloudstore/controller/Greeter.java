@@ -19,23 +19,24 @@ package net.dragberry.cloudstore.controller;
 import net.dragberry.cloudstore.business.CategoryServiceLocal;
 import net.dragberry.cloudstore.business.ProductServiceLocal;
 import net.dragberry.cloudstore.domain.Category;
-import net.dragberry.cloudstore.domain.Category_;
 import net.dragberry.cloudstore.domain.Product;
-import net.dragberry.cloudstore.domain.Product_;
-import net.dragberry.cloudstore.query.ProductQuery;
-import net.dragberry.cloudstore.query.sort.SortOrder;
-
+import net.dragberry.cloudstore.query.ProductListQuery;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A simple managed bean that is used to invoke the GreeterEJB and store the
@@ -48,6 +49,8 @@ import java.util.List;
 public class Greeter implements Serializable {
 
 	private static final long serialVersionUID = 9036218023267311356L;
+	
+	private static Log LOGGER = LogFactory.getLog(Greeter.class);
 	
 	private List<Product> productList = new ArrayList<Product>();
 	
@@ -66,15 +69,12 @@ public class Greeter implements Serializable {
     	categoryList = categoryService.fetchCategories();
     }
 
-    public void search(String title, String description, String fullDescription, String minCost, String maxCost) {
-        ProductQuery p = new ProductQuery();
+    public void search(String searchRequest, String title, String description, String fullDescription, String minCost, String maxCost) {
+        ProductListQuery p = new ProductListQuery();
+        p.setSearchRequest(searchRequest);
         p.setTitle(title);
     	p.setDescription(description);
     	p.setFullDescription(fullDescription);
-    	p.addSortItem(Product_.description.getName(), SortOrder.DESCENDING, Product.class, 0);
-    	p.addSortItem(Product_.id.getName(), SortOrder.ASCENDING, Product.class, 2);
-    	p.addSortItem(Product_.title.getName(), SortOrder.DESCENDING, Product.class, 1);
-    	p.addSortItem(Category_.title.getName(), SortOrder.DESCENDING, Category.class, 1);
     	List<Long> ids = new ArrayList<Long>();
     	for (String id : selectedCategoryIds) {
     		ids.add(Long.valueOf(id));
@@ -83,6 +83,32 @@ public class Greeter implements Serializable {
     	p.setMinCost(StringUtils.isBlank(minCost) ? null : new BigDecimal(minCost));
     	p.setMaxCost(StringUtils.isBlank(maxCost) ? null : new BigDecimal(maxCost));
     	productList = productService.fetchProducts(p);
+    	
+    	for (Product product : productList) {
+    		Map<Category, List<Category>> categoryMap = new HashMap<Category, List<Category>>();
+    		for (Category category : product.getCategories()) {
+    			List<Category> children = getChildren(category, product.getCategories());
+				if (!children.isEmpty()) {
+					categoryMap.put(category, children);
+				}
+				LOGGER.info("Product: " + product.getTitle() + "; Category: " + category.getTitle());
+    			if (category.getParentCategory() != null) {
+    				LOGGER.info("Parent Category: " + category.getParentCategory().getTitle());
+    			}
+			}
+    	}
+    }
+    
+    public List<Category> getChildren(Category category, Set<Category> categories) {
+    	List<Category> children = new ArrayList<Category>();
+    	for (Category cat : categories) {
+    		if (cat.hasParent()) {
+    			if (cat.getParentCategory().equals(category)) {
+    				children.add(cat);
+    			}
+    		}
+    	}
+    	return children;
     }
     
     public List<Product> getProductList() {

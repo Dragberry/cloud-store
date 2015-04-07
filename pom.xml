@@ -73,14 +73,6 @@
 				<type>war</type>
 				<scope>compile</scope>
 			</dependency>
-			
-			<!-- Apache common utils -->
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>3.3.2</version>
-			</dependency>
-
 
 			<!-- Define the version of JBoss' Java EE 6 APIs we want to import. Any 
 				dependencies from org.jboss.spec will have their version defined by this 
@@ -100,6 +92,20 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<dependencies>
+		<!-- Apache common utils -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.0</version>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>

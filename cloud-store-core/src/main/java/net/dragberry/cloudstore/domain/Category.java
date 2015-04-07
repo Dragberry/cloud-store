@@ -38,7 +38,13 @@ public class Category extends AbstractEntity {
     @OneToMany(cascade = CascadeType.PERSIST)
     private Set<Category> subCategories = new HashSet<Category>();
 
-    
+    /**
+     * This method returns TRUE, if this category is a subcategory of another category.
+     * @return true or false.
+     */
+    public boolean hasParent() {
+    	return parentCategory != null;
+    }
 
     public String getTitle() {
         return title;

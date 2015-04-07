@@ -1,10 +1,13 @@
 package net.dragberry.cloudstore.domain;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -47,8 +50,12 @@ public class Product extends AbstractEntity {
     /**
      * A product can be associated with 0 or more categories.
      */
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
     private Set<Category> categories;
+    
+    public List<Category> getCategoryList() {
+    	return categories == null ? new ArrayList<Category>() : new ArrayList<Category>(categories);
+    }
 
     public String getTitle() {
         return title;
