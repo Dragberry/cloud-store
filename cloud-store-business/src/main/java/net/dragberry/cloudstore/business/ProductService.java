@@ -20,14 +20,6 @@ public class ProductService implements ProductServiceLocal {
 	@Inject
 	private CategoryDao defaultCategoryDao;
 	
-
-	@Override
-	public Product createProduct(Product product) {
-	    defaultProductDao.saveProduct(product);
-		return product;
-	}
-
-
     @Override
     public List<Product> fetchProducts(ProductListQuery query) {
     	List<Product> products = defaultProductDao.fetchProducts(query);

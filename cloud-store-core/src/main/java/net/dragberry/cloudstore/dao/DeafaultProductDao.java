@@ -26,15 +26,10 @@ import net.dragberry.cloudstore.domain.Product_;
 import net.dragberry.cloudstore.query.ProductListQuery;
 
 @Stateless
-public class DeafaultProductDao extends AbstractEntityService<Product> implements ProductDao {
+public class DeafaultProductDao extends AbstractDao<Product> implements ProductDao {
     
     private final static Log LOGGER = LogFactory.getLog(DefaultCategoryDao.class);
     
-	@Override
-	public Product saveProduct(Product product) {
-		return createNewEntity(product);
-	}
-
     @Override
     public List<Product> fetchProducts(ProductListQuery productQuery) {
         LOGGER.info("Entering into DefaultProductDao.fetchProducts...");

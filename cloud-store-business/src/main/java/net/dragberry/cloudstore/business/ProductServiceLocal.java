@@ -10,8 +10,6 @@ import net.dragberry.cloudstore.query.ProductListQuery;
 @Local
 public interface ProductServiceLocal {
 	
-	Product createProduct(Product product);
-	
 	List<Product> fetchProducts(ProductListQuery query);
 
 }

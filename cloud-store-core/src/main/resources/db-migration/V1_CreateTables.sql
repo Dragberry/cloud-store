@@ -26,6 +26,14 @@ CREATE TABLE category_product (
 	CONSTRAINT FK_PRODUCT_CATEGORY FOREIGN KEY (product_id) REFERENCES product (id)
 ) ENGINE=INNODB;
 
+CREATE TABLE image (
+    id BIGINT AUTO_INCREMENT NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    content_type VARCHAR(255) NOT NULL,
+    CONTENT LONGBLOB,
+    PRIMARY KEY(id)
+) ENGINE=INNODB;
+
 INSERT INTO product (id, title, description, full_description, cost) VALUES (1, 'Latex balloon green', 'Description Latex balloon green', 'Full description Latex balloon green', '1000.00');
 INSERT INTO product (id, title, description, full_description, cost) VALUES (2, 'Metalic balloon white', 'Description Metalic balloon white', 'Full description Metalic balloon white','2500.00');
 INSERT INTO product (id, title, description, full_description, cost) VALUES (3, 'Ligtn balloon red', 'Light red ballon Description', 'Full description Light red baloon', '1250.00');

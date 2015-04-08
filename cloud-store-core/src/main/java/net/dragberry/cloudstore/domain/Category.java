@@ -35,7 +35,7 @@ public class Category extends AbstractEntity {
     /**
      * Sub-categories
      */
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy="parentCategory", cascade = CascadeType.PERSIST)
     private Set<Category> subCategories = new HashSet<Category>();
 
     /**
@@ -44,6 +44,14 @@ public class Category extends AbstractEntity {
      */
     public boolean hasParent() {
     	return parentCategory != null;
+    }
+    
+    /**
+     * This method returns TRUE, if this category has subcategories.
+     * @return true or false.
+     */
+    public boolean hasChildren() {
+    	return !subCategories.isEmpty();
     }
 
     public String getTitle() {

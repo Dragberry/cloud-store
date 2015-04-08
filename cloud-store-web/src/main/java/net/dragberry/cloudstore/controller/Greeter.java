@@ -17,10 +17,13 @@
 package net.dragberry.cloudstore.controller;
 
 import net.dragberry.cloudstore.business.CategoryServiceLocal;
+import net.dragberry.cloudstore.business.ImageServiceLocal;
 import net.dragberry.cloudstore.business.ProductServiceLocal;
+import net.dragberry.cloudstore.collections.TreeNode;
 import net.dragberry.cloudstore.domain.Category;
 import net.dragberry.cloudstore.domain.Product;
 import net.dragberry.cloudstore.query.ProductListQuery;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -57,6 +60,8 @@ public class Greeter implements Serializable {
 	private List<Category> categoryList = new ArrayList<Category>();
 	
 	private List<String> selectedCategoryIds = new  ArrayList<String>();
+	
+	private TreeNode<Category> categoryTree = null;
 
     @EJB
     private ProductServiceLocal productService;
@@ -64,13 +69,19 @@ public class Greeter implements Serializable {
     @EJB
     private CategoryServiceLocal categoryService;
     
+    @EJB
+    private ImageServiceLocal imageService;
+    
     @PostConstruct
     public void fetchInitializationData() {
+    	imageService.saveImage(null);
+    	categoryTree = categoryService.buildCategoryTree();
     	categoryList = categoryService.fetchCategories();
     }
 
     public void search(String searchRequest, String title, String description, String fullDescription, String minCost, String maxCost) {
-        ProductListQuery p = new ProductListQuery();
+    	categoryTree = categoryService.buildCategoryTree();
+    	ProductListQuery p = new ProductListQuery();
         p.setSearchRequest(searchRequest);
         p.setTitle(title);
     	p.setDescription(description);

@@ -7,8 +7,6 @@ import net.dragberry.cloudstore.query.ProductListQuery;
 
 public interface ProductDao {
 	
-	Product saveProduct(Product product);
-	
 	List<Product> fetchProducts(ProductListQuery query);
 	
 }

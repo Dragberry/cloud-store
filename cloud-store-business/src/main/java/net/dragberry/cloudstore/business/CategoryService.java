@@ -1,6 +1,5 @@
 package net.dragberry.cloudstore.business;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -22,21 +21,8 @@ public class CategoryService implements CategoryServiceLocal {
 	}
 	
 	@Override
-	public List<Category> buildCategoryTree(List<Category> categoryList) {
-		TreeNode root = new TreeNode();
-		Iterator<Category> iterator = categoryList.iterator();
-		while (iterator.hasNext()) {
-			Category category = iterator.next();
-			if (!category.hasParent()) {
-				root.add(new TreeNode(category));
-			}
-			iterator.remove();
-		}
-
-		for (TreeNode parentNode : root.children()) {
-			
-		}
-		return categoryList;
+	public TreeNode<Category> buildCategoryTree() {
+		return defaultCategoryDao.getCategoryTree();
 	}
 
 }
