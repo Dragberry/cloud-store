@@ -47,6 +47,9 @@ public class Product extends AbstractEntity {
     @Column(name = "cost")
     private BigDecimal cost;
     
+    @Column(name = "main_image_id")
+    private Long mainImageId;
+    
     /**
      * A product can be associated with 0 or more categories.
      */
@@ -96,5 +99,13 @@ public class Product extends AbstractEntity {
 	public void setCost(BigDecimal cost) {
 		this.cost = cost;
 	}
+
+    public Long getMainImageId() {
+        return mainImageId;
+    }
+
+    public void setMainImageId(Long mainImage) {
+        this.mainImageId = mainImage;
+    }
 
 }

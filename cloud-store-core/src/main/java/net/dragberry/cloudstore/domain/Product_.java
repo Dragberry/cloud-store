@@ -14,5 +14,6 @@ public class Product_ extends AbstractEntity_ {
     public static volatile SingularAttribute<Product, String> fullDescription;
     public static volatile SingularAttribute<Product, BigDecimal> cost;
     public static volatile SetAttribute<Product, Category> categories;
+    public static volatile SetAttribute<Product, Long> mainImageId;
 
 }
