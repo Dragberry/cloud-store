@@ -20,6 +20,7 @@ import net.dragberry.cloudstore.business.CategoryServiceLocal;
 import net.dragberry.cloudstore.business.ImageServiceLocal;
 import net.dragberry.cloudstore.business.ProductServiceLocal;
 import net.dragberry.cloudstore.collections.TreeNode;
+import net.dragberry.cloudstore.dataimport.ImageImporterLocal;
 import net.dragberry.cloudstore.domain.Category;
 import net.dragberry.cloudstore.domain.Product;
 import net.dragberry.cloudstore.query.ProductListQuery;
@@ -72,10 +73,13 @@ public class Greeter implements Serializable {
     @EJB
     private ImageServiceLocal imageService;
     
+    @EJB
+    private ImageImporterLocal imageImporter;
+    
     @PostConstruct
     public void fetchInitializationData() {
-    	imageService.saveImage(null);
-    	categoryTree = categoryService.buildCategoryTree();
+        imageImporter.doImageImport("d:\\pics");;
+//    	categoryTree = categoryService.buildCategoryTree();
     	categoryList = categoryService.fetchCategories();
     }
 

@@ -1,17 +1,9 @@
 package net.dragberry.cloudstore.business;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.criteria.CriteriaBuilder;
-
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -31,20 +23,6 @@ public class ImageService implements ImageServiceLocal {
 	@Override
 	public Image saveImage(ImageQuery imageQuery) {
 		LOGGER.info("Entering into ImageService.saveImage...");
-		try {
-			imageQuery = new ImageQuery();
-			File file = new File("Y:\\images\\details.png");
-			InputStream is = new FileInputStream(file);
-			byte[] content = IOUtils.toByteArray(is);
-			String fileName = file.getName();
-			imageQuery.setContent(content);
-			imageQuery.setFileName(fileName);
-			imageQuery.setContentType("image/png");		
-		} catch (FileNotFoundException e) {
-			LOGGER.info(e.getMessage(), e);
-		} catch (IOException e) {
-			LOGGER.info(e.getMessage(), e);
-		}
 		Image image = defaultImageDao.saveImage(imageQuery);
 		LOGGER.info("Image '" + image.getFileName() + "' has been saved...");
 		return image;
