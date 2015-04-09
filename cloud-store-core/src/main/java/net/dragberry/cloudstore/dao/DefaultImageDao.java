@@ -29,7 +29,7 @@ public class DefaultImageDao extends AbstractDao<Image> implements ImageDao {
 	@Override
 	public Image saveImage(ImageQuery query) {
 		Image image = new Image();
-		image.setContent(query.getContent());
+		image.setPath(query.getPath());
 		image.setFileName(query.getFileName());
 		image.setContentType(query.getContentType());
 		getEntityManager().persist(image);

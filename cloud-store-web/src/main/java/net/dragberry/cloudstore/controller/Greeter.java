@@ -20,6 +20,7 @@ import net.dragberry.cloudstore.business.CategoryServiceLocal;
 import net.dragberry.cloudstore.business.ImageServiceLocal;
 import net.dragberry.cloudstore.business.ProductServiceLocal;
 import net.dragberry.cloudstore.collections.TreeNode;
+import net.dragberry.cloudstore.collections.TreeNodeCallback;
 import net.dragberry.cloudstore.dataimport.ImageImporterLocal;
 import net.dragberry.cloudstore.domain.Category;
 import net.dragberry.cloudstore.domain.Product;
@@ -78,7 +79,7 @@ public class Greeter implements Serializable {
     
     @PostConstruct
     public void fetchInitializationData() {
-//        imageImporter.doImageImport("d:\\pics");;
+        imageImporter.doImageImport("y:\\images");;
 //    	categoryTree = categoryService.buildCategoryTree();
     	categoryList = categoryService.fetchCategories();
     }
@@ -100,17 +101,15 @@ public class Greeter implements Serializable {
     	productList = productService.fetchProducts(p);
     	
     	for (Product product : productList) {
-    		Map<Category, List<Category>> categoryMap = new HashMap<Category, List<Category>>();
-    		for (Category category : product.getCategories()) {
-    			List<Category> children = getChildren(category, product.getCategories());
-				if (!children.isEmpty()) {
-					categoryMap.put(category, children);
+    		LOGGER.info(product.getTitle());
+    		product.getCategoryTree().walkTree(new TreeNodeCallback<Category>() {
+
+				@Override
+				public int handleTreeNode(TreeNode<Category> node) {
+					LOGGER.info(StringUtils.repeat("\t", node.getLevel()) + node.getReference().getTitle());
+					return 0;
 				}
-				LOGGER.info("Product: " + product.getTitle() + "; Category: " + category.getTitle());
-    			if (category.getParentCategory() != null) {
-    				LOGGER.info("Parent Category: " + category.getParentCategory().getTitle());
-    			}
-			}
+			});
     	}
     }
     

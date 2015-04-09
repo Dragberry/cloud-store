@@ -1,10 +1,6 @@
 package net.dragberry.cloudstore.dataimport;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,11 +8,11 @@ import java.util.Map;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.dragberry.cloudstore.business.ImageServiceLocal;
+import net.dragberry.cloudstore.domain.Image;
 import net.dragberry.cloudstore.query.ImageQuery;
 
 @Stateless
@@ -44,41 +40,32 @@ public class ImageImporter implements ImageImporterLocal, Serializable {
             LOGGER.info("Incorrect image folder path!");
             return;
         }
-        if (folder.listFiles().length <= 0) {
+        if (folder.list().length <= 0) {
             LOGGER.info("The image folder is empty!");
             return;
         }
-        for (File file : folder.listFiles()) {
-            InputStream is = null;
-            ImageQuery imageQuery = null;
-            try {
-                imageQuery = new ImageQuery();
-                is = new FileInputStream(file);
-                byte[] content = IOUtils.toByteArray(is);
-                String fileName = file.getName();
-                String contentType = CONTENT_TYPE_MAP.get(fileName.substring(fileName.lastIndexOf(".") + 1));
-                if (contentType == null) {
-                    LOGGER.info("Can not determine content-type of the file with name '" + fileName + "'!");
-                    return;
-                }
-                imageQuery.setContent(content);
-                imageQuery.setFileName(fileName);
-                imageQuery.setContentType(contentType); 
-                imageService.saveImage(imageQuery);
-                
-            } catch (FileNotFoundException e) {
-                LOGGER.info(e.getMessage(), e);
-            } catch (IOException e) {
-                LOGGER.info(e.getMessage(), e);
-            } finally {
-                if (is != null) {
-                    try {
-                        is.close();
-                    } catch (IOException e) {
-                        LOGGER.info(e.getMessage(), e);
-                    }
-                }
+        scanFolder(folder.listFiles());
+    }
+    
+    private void scanFolder(File[] folder) {
+    	for (File file : folder) {
+        	if (file.isDirectory()) {
+        		scanFolder(file.listFiles());
+        	}
+        	String fileName = file.getName();
+        	String absolutePath = file.getAbsolutePath();
+            String contentType = CONTENT_TYPE_MAP.get(fileName.substring(fileName.lastIndexOf(".") + 1));
+            if (contentType == null) {
+            	LOGGER.info("File '" + absolutePath + "' is not an image!");
+                break;
             }
+        	String path = absolutePath.substring(Image.IMAGE_DIRECTORY.length(), absolutePath.lastIndexOf(File.separator) + 1);
+        	ImageQuery imageQuery = new ImageQuery();
+        	imageQuery.setPath(path);
+            imageQuery.setFileName(fileName);
+            imageQuery.setContentType(contentType);
+            imageService.saveImage(imageQuery);
+            imageService.saveImage(imageQuery);
         }
     }
 

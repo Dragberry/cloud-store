@@ -2,18 +2,18 @@ package net.dragberry.cloudstore.query;
 
 public class ImageQuery {
 	
-	private byte[] content;
-	
 	private String fileName;
 	
 	private String contentType;
 
-	public byte[] getContent() {
-		return content;
+	private String path;
+
+	public String getPath() {
+		return path;
 	}
 
-	public void setContent(byte[] content) {
-		this.content = content;
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	public String getFileName() {

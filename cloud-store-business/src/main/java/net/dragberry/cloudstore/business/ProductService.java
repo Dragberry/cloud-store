@@ -1,11 +1,11 @@
 package net.dragberry.cloudstore.business;
 
-import java.util.HashSet;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import net.dragberry.cloudstore.collections.TreeNode;
 import net.dragberry.cloudstore.dao.CategoryDao;
 import net.dragberry.cloudstore.dao.ProductDao;
 import net.dragberry.cloudstore.domain.Category;
@@ -24,8 +24,8 @@ public class ProductService implements ProductServiceLocal {
     public List<Product> fetchProducts(ProductListQuery query) {
     	List<Product> products = defaultProductDao.fetchProducts(query);
     	for (Product product : products) {
-    		List<Category> categories = defaultCategoryDao.fetchCategoriesForProduct(product.getId());
-    		product.setCategories(new HashSet<Category>(categories));
+    		TreeNode<Category> categoryTree = defaultCategoryDao.fetchCategoriesForProduct(product.getId());
+    		product.setCategoryTree(categoryTree);
     	}
         return products;
     }

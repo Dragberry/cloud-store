@@ -1,6 +1,9 @@
 package net.dragberry.cloudstore.servlet;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -9,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 
 import net.dragberry.cloudstore.business.ImageServiceLocal;
 import net.dragberry.cloudstore.domain.Image;
@@ -47,11 +52,14 @@ public class ImageServlet extends HttpServlet {
         // Init servlet response.
         response.reset();
         response.setContentType(image.getContentType());
-        response.setContentLength(image.getContent().length);
+        File file = new File(image.getRealPath());
+        InputStream is = new FileInputStream(file);
+        IOUtils.copy(is, response.getOutputStream());
         response.setHeader("Content-Disposition", "inline; filename=\"" + image.getFileName() + "\"");
 
         // Write image content to response.
-        response.getOutputStream().write(image.getContent());
+        response.getOutputStream().close();
+        response.getOutputStream().flush();
 	}
 
 }

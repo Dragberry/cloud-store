@@ -8,7 +8,7 @@ public interface CategoryDao {
 	
 	List<Category> fetchCategories();
 	
-	List<Category> fetchCategoriesForProduct(Long productId);
+	TreeNode<Category> fetchCategoriesForProduct(Long productId);
 	
 	TreeNode<Category> getCategoryTree();
 

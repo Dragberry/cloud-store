@@ -2,6 +2,7 @@ package net.dragberry.cloudstore.dao;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -83,14 +84,57 @@ public class DefaultCategoryDao extends AbstractDao<Category> implements Categor
 	}
 	
 	@Override
-	public List<Category> fetchCategoriesForProduct(Long productId) {
+	public TreeNode<Category> fetchCategoriesForProduct(Long productId) {
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Category> cq = cb.createQuery(Category.class);
 		Root<Category> root = cq.from(Category.class);
 		Join<Category, Product> joinProductCategory = root.join(Category_.products);
 		Predicate where = cb.equal(joinProductCategory.get(Product_.id), productId);
 		cq.where(where);
-		return getEntityManager().createQuery(cq).getResultList();
+		List<Category> cs = getEntityManager().createQuery(cq).getResultList();
+		TreeNode<Category> tree = new TreeNode<Category>(new Category());
+		Set<Category> fullCategorySet = new HashSet<Category>();
+		for (Category c : cs) {
+			addParentCategoryToSet(c, fullCategorySet);
+		}
+		
+		while (!fullCategorySet.isEmpty()) {
+			Iterator<Category> it = fullCategorySet.iterator();
+			while (it.hasNext()) {
+				Category c = it.next();
+				if (!c.hasParent()) {
+					tree.addChildNode(new TreeNode<Category>(c));
+					it.remove();
+				}
+			}
+			findChildren(tree, fullCategorySet);
+		}
+		
+		return tree;
+	}
+	
+	private void findChildren(TreeNode<Category> parentNode, Set<Category> fullCategorySet) {
+		for (TreeNode<Category> node : parentNode.getChildren()) {
+			Iterator <Category> it = fullCategorySet.iterator();
+			while (it.hasNext()) {
+				Category c = it.next();
+				if (node.getReference().equals(c.getParentCategory())) {
+					node.addChildNode(new TreeNode<Category>(c));
+					it.remove();
+				}
+			}
+			if (!node.getChildren().isEmpty()) {
+				findChildren(node, fullCategorySet);
+			}
+		}
+	}
+
+	private void addParentCategoryToSet(Category category, Set<Category> fullCategorySet) {
+		fullCategorySet.add(category);
+		if (category.hasParent()) {
+			addParentCategoryToSet(category.getParentCategory(), fullCategorySet);
+		}
+		
 	}
 
 }

@@ -14,4 +14,6 @@ public interface CategoryServiceLocal {
 	
 	TreeNode<Category> buildCategoryTree();
 	
+	TreeNode<Category> fetchCategoriesForProduct(Long productId);
+	
 }

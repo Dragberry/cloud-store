@@ -25,4 +25,9 @@ public class CategoryService implements CategoryServiceLocal {
 		return defaultCategoryDao.getCategoryTree();
 	}
 
+	@Override
+	public TreeNode<Category> fetchCategoriesForProduct(Long productId) {
+		return defaultCategoryDao.fetchCategoriesForProduct(productId);
+	}
+
 }

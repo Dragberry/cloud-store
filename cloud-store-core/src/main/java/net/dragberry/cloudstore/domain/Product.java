@@ -8,8 +8,13 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import net.dragberry.cloudstore.collections.TreeNode;
 
 /**
  * This class is a general product model.
@@ -47,14 +52,21 @@ public class Product extends AbstractEntity {
     @Column(name = "cost")
     private BigDecimal cost;
     
-    @Column(name = "main_image_id")
-    private Long mainImageId;
+    /**
+     * A main product image
+     */
+    @ManyToOne
+    @JoinColumn(name = "main_image_id", referencedColumnName = "id")
+    private Image mainImage;
     
     /**
      * A product can be associated with 0 or more categories.
      */
     @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
     private Set<Category> categories;
+    
+    @Transient
+    private TreeNode<Category> categoryTree;
     
     public List<Category> getCategoryList() {
     	return categories == null ? new ArrayList<Category>() : new ArrayList<Category>(categories);
@@ -100,12 +112,20 @@ public class Product extends AbstractEntity {
 		this.cost = cost;
 	}
 
-    public Long getMainImageId() {
-        return mainImageId;
-    }
+	public Image getMainImage() {
+		return mainImage;
+	}
 
-    public void setMainImageId(Long mainImage) {
-        this.mainImageId = mainImage;
-    }
+	public void setMainImage(Image mainImage) {
+		this.mainImage = mainImage;
+	}
+
+	public TreeNode<Category> getCategoryTree() {
+		return categoryTree;
+	}
+
+	public void setCategoryTree(TreeNode<Category> categoryTree) {
+		this.categoryTree = categoryTree;
+	}
 
 }
