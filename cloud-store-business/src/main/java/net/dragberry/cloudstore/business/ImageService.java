@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -32,6 +33,12 @@ public class ImageService implements ImageServiceLocal {
 	public Image fetchImage(Long id) {
 		LOGGER.info("Entering into ImageService.fetchImage...");
 		return defaultImageDao.findImage(id);
+	}
+	
+	@Override
+	public Image fetchImage(String fileName) {
+		LOGGER.info("Entering into ImageService.fetchImage...");
+		return defaultImageDao.findImage(fileName);
 	}
 
 	@Override

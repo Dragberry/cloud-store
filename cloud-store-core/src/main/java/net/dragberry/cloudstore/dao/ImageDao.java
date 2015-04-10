@@ -10,6 +10,8 @@ public interface ImageDao {
 	
 	Image findImage(Long id);
 	
+	Image findImage(String fileName);
+	
 	List<Image> fetchImages(ImageListQuery imageListQuery);
 	
 	Image saveImage(ImageQuery imageQuery);

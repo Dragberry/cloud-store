@@ -23,6 +23,10 @@ public class Image extends AbstractEntity {
 	@Column( name = "content_type" )
     private String contentType;
 	
+	@Column( name = "alt" )
+    private String alt;
+	
+	
 	public String getRealPath() {
 		return IMAGE_DIRECTORY + path + fileName;
 	}
@@ -50,6 +54,14 @@ public class Image extends AbstractEntity {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public String getAlt() {
+		return alt;
+	}
+
+	public void setAlt(String alt) {
+		this.alt = alt;
 	}
 
 }

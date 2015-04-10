@@ -15,6 +15,8 @@ public interface ImageServiceLocal {
 	
 	Image fetchImage(Long id);
 	
+	Image fetchImage(String fileName);
+	
 	List<Image> fetchImages(ImageListQuery imageListQuery);
 
 }

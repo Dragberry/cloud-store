@@ -85,6 +85,12 @@
             		</f:facet>
             		<h:outputText value="#{product.cost}" />
             	</h:column>
+            	<h:column>
+            		<f:facet name="header">
+            			<h:outputText value="Image" />
+            		</f:facet>
+            		<h:graphicImage value="/images/#{product.mainImage.path}#{product.mainImage.fileName}" />
+            	</h:column>
             </h:dataTable>
         </h:form>
     </div>

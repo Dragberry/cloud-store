@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -51,21 +52,26 @@ public class ImageImporter implements ImageImporterLocal, Serializable {
     	for (File file : folder) {
         	if (file.isDirectory()) {
         		scanFolder(file.listFiles());
+        	} else {
+	        	String extension = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+	        	String absolutePath = file.getAbsolutePath();
+	        	String contentType = CONTENT_TYPE_MAP.get(extension);
+	        	if (contentType == null) {
+	            	LOGGER.info("File '" + absolutePath + "' is not an image!");
+	                break;
+	            }
+	        	
+	        	String fileName = UUID.randomUUID().toString() + "." + extension;
+	            
+	        	String path = absolutePath.substring(Image.IMAGE_DIRECTORY.length(), absolutePath.lastIndexOf(File.separator) + 1);
+	        	file.renameTo(new File(Image.IMAGE_DIRECTORY + path + fileName));
+	        	
+	        	ImageQuery imageQuery = new ImageQuery();
+	        	imageQuery.setPath(path.replace(File.separator, "/"));
+	            imageQuery.setFileName(fileName);
+	            imageQuery.setContentType(contentType);
+	            imageService.saveImage(imageQuery);
         	}
-        	String fileName = file.getName();
-        	String absolutePath = file.getAbsolutePath();
-            String contentType = CONTENT_TYPE_MAP.get(fileName.substring(fileName.lastIndexOf(".") + 1));
-            if (contentType == null) {
-            	LOGGER.info("File '" + absolutePath + "' is not an image!");
-                break;
-            }
-        	String path = absolutePath.substring(Image.IMAGE_DIRECTORY.length(), absolutePath.lastIndexOf(File.separator) + 1);
-        	ImageQuery imageQuery = new ImageQuery();
-        	imageQuery.setPath(path);
-            imageQuery.setFileName(fileName);
-            imageQuery.setContentType(contentType);
-            imageService.saveImage(imageQuery);
-            imageService.saveImage(imageQuery);
         }
     }
 

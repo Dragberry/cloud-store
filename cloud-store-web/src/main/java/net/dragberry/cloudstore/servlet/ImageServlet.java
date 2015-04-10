@@ -19,7 +19,7 @@ import net.dragberry.cloudstore.business.ImageServiceLocal;
 import net.dragberry.cloudstore.domain.Image;
 
 @Named
-@WebServlet("/image/*")
+@WebServlet("/images/*")
 public class ImageServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -1016854414183822604L;
@@ -29,17 +29,11 @@ public class ImageServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String uri = request.getRequestURI();
+		String imageName = uri.substring(uri.lastIndexOf("/") + 1);
 		
-        // Get ID from request.
-		Long imageId = null;
-		try {
-			imageId = Long.valueOf(request.getParameter("id"));
-		} catch (NumberFormatException ne) {
-			response.sendError(HttpServletResponse.SC_NOT_FOUND);
-		}
-
         // Lookup Image by ImageId in database.
-        Image image = imageService.fetchImage(imageId);
+        Image image = imageService.fetchImage(imageName);
 
         // Check if image is actually retrieved from database.
         if (image == null) {
