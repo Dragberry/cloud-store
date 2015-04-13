@@ -1,0 +1,25 @@
+<ui:composition template="/WEB-INF/templates/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:shop="http://java.sun.com/jsf/composite/shop">
+<ui:define name="main">
+	<form action="j_security_check" method="POST">
+		<p:panelGrid columns="2">
+			<f:facet name="header">
+				<h:outputText value="Authentification"/>
+			</f:facet>
+			<h:outputText value="Username"/>
+			<p:inputText id="j_username"/>
+			<h:outputText value="Password"/>
+			<p:password id="j_password"/>
+			<h:panelGroup>
+				<p:button type="submit" value="Submit"/>
+				<p:button type="submit" value="Reset"/>
+			</h:panelGroup>
+		</p:panelGrid>
+	</form>
+</ui:define>
+</ui:composition>

@@ -1,0 +1,80 @@
+<ui:composition template="/WEB-INF/templates/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:shop="http://java.sun.com/jsf/composite/shop">
+<ui:define name="main">
+	<h:form id="cloud-store-form">
+		<h:panelGrid columns="2">
+			<h:outputLabel>Search request:</h:outputLabel>
+			<h:inputText value="#{searchRequest}" />
+			<h:outputLabel>Title:</h:outputLabel>
+			<h:inputText value="#{title}" />
+			<h:outputLabel>Description:</h:outputLabel>
+			<h:inputText value="#{description}" />
+			<h:outputLabel>Full description:</h:outputLabel>
+			<h:inputText value="#{fullDescription}" />
+			<h:outputLabel>Min cost:</h:outputLabel>
+			<h:inputText value="#{minCost}" />
+			<h:outputLabel>Max cost:</h:outputLabel>
+			<h:inputText value="#{maxCost}" />
+			<h:outputLabel>Categories:</h:outputLabel>
+			<h:selectManyListbox value="#{greeter.selectedCategoryIds}">
+				<f:selectItems value="#{greeter.categoryList}" 
+					var="category"
+					itemLabel="#{category.title}" 
+					itemValue="#{category.id}" />
+			</h:selectManyListbox>
+			<p:commandButton id="search" 
+				value="Search"
+				action="#{greeter.search(searchRequest, title, description, fullDescription, minCost, maxCost)}"
+				update="datatable">
+			</p:commandButton>
+		</h:panelGrid>
+		<p:dataTable id="datatable"
+			value="#{greeter.productList}" 
+			var="product"
+			style="border: 1px solid">
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="ID" />
+				</f:facet>
+				<h:outputText value="#{product.id}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Title" />
+				</f:facet>
+				<h:outputText value="#{product.title}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Description" />
+				</f:facet>
+				<h:outputText value="#{product.description}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Full Description" />
+				</f:facet>
+				<h:outputText value="#{product.fullDescription}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Cost" />
+				</f:facet>
+				<h:outputText value="#{product.cost}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Image" />
+				</f:facet>
+				<h:graphicImage
+					value="/images/#{product.mainImage.path}#{product.mainImage.fileName}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</ui:define>
+</ui:composition>
