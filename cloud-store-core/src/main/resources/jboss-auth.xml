@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<subsystem xmlns="urn:jboss:domain:security:1.2">
+	<security-domains>
+		<security-domain name="other" cache-type="default">
+			<authentication>
+				<login-module code="Disabled" flag="required" />
+			</authentication>
+		</security-domain>
+		<security-domain name="MySqlDSAuth">
+			<authentication>
+				<login-module
+					code="org.jboss.security.auth.spi.DatabaseServerLoginModule" flag="required">
+					<module-option name="dsJndiName" value="java:jboss/datasources/MySqlDS" />
+					<module-option name="principalsQuery"
+						value="SELECT password FROM customer WHERE customer_name=?" />
+					<module-option name="rolesQuery"
+						value="SELECT r.role_name, 'Roles' FROM role r, customer_role cr, customer c WHERE c.customer_name='admin' AND c.ID=cr.customer_id AND cr.role_id=r.ID" />
+					<!-- <module-option name="hashAlgorithm">MD5</module-option> <module-option 
+						name="hashEncoding">rfc2617</module-option> <module-option name="ignorePasswordCase">false</module-option> 
+						<module-option name="hashStorePassword">true</module-option> <module-option 
+						name="hashUserPassword">false</module-option> <module-option name="storeDigestCallback">org.jboss.security.auth.spi.RFC2617Digest</module-option> -->
+				</login-module>
+			</authentication>
+		</security-domain>
+	</security-domains>
+</subsystem>

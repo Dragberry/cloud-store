@@ -48,7 +48,7 @@
 
     <login-config>
         <auth-method>FORM</auth-method>
-        <realm-name>CloudStoreRealm</realm-name>
+        <realm-name>MySqlDSAuth</realm-name>
         <form-login-config>
             <form-login-page>/login.xhtml</form-login-page>
             <form-error-page>/login_error.xhtml</form-error-page>
@@ -61,7 +61,7 @@
             <web-resource-name>
                 Cloude Store Administrative Component
             </web-resource-name>
-            <url-pattern>/greeter/*</url-pattern>
+            <url-pattern>/admin/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
