@@ -42,6 +42,15 @@ CREATE TABLE image (
     PRIMARY KEY(id)
 ) ENGINE=INNODB;
 
+CREATE TABLE dashboard_item (
+	id BIGINT AUTO_INCREMENT NOT NULL,
+	title VARCHAR(512),
+	text VARCHAR(1024),
+	image_id BIGINT,
+	PRIMARY KEY (id),
+	CONSTRAINT FK_IMAGE_DASHBOARD FOREIGN KEY (image_id) REFERENCES image (id)
+) ENGINE=INNODB;
+
 CREATE TABLE product (
 	id BIGINT AUTO_INCREMENT NOT NULL,
 	title VARCHAR(255),
@@ -66,6 +75,9 @@ CREATE TABLE category_product (
 	CONSTRAINT FK_CATEGORY_PRODUCT FOREIGN KEY (category_id) REFERENCES category (id),
 	CONSTRAINT FK_PRODUCT_CATEGORY FOREIGN KEY (product_id) REFERENCES product (id)
 ) ENGINE=INNODB;
+
+INSERT INTO dashboard_item (id, title, text) VALUES (1, 'Ищите оригинальные способы признания в любви?', '{0} поможет Вам сделать удивительное признание для своей второй половинки!');
+INSERT INTO dashboard_item (id, title, text) VALUES (2, 'Хотите весело и необычно отпраздновать важное событие в вашей жизни?', '{0} наполнит Ваш праздник незабываемыми моментами и неповторимыми эмоциями!');
 
 INSERT INTO product (id, title, description, full_description, cost) VALUES (1, 'Latex balloon green', 'Description Latex balloon green', 'Full description Latex balloon green', '1000.00');
 INSERT INTO product (id, title, description, full_description, cost) VALUES (2, 'Metalic balloon white', 'Description Metalic balloon white', 'Full description Metalic balloon white','2500.00');

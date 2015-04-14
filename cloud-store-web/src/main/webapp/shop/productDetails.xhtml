@@ -6,13 +6,6 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:shop="http://java.sun.com/jsf/composite/shop">
 <ui:define name="main">
-	<ui:repeat var="item" value="#{dashboardBean.items}">
-		<p:outputPanel layout="block">
-			<h2>
-				<h:outputText value="#{item.title}"/>
-			</h2>
-			<h:outputText value="#{item.text}"/>
-		</p:outputPanel>
-	</ui:repeat>	
+	<h:outputText value="Product Details"/>
 </ui:define>
 </ui:composition>

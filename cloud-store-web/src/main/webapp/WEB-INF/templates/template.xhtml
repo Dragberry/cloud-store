@@ -24,8 +24,8 @@
 					 <p:menubar>
 					 	<p:menuitem value="Home" url="/" />
 					 	<p:submenu label="Shop">
-				            <p:menuitem value="Category 1" url="#" />
-				            <p:menuitem value="Category 2" url="#" />
+				            <p:menuitem value="Category 1" url="/shop/productList.xhtml?category=1" />
+				            <p:menuitem value="Category 2" url="/shop/productList.xhtml?category=1" />
 				        </p:submenu>
 				        <p:submenu label="Services">
 				            <p:menuitem value="Service 1" url="#" />
@@ -34,7 +34,13 @@
 				        <p:menuitem value="Administration" url="/admin/protected.xhtml" />
 				        <f:facet name="options">
 				        	<p:menuitem value="About us" url="/" />
-				            <p:inputText style="margin-right:10px" placeholder="Search"/>
+				            <p:inputText style="margin-right:10px" 
+				            	placeholder="Search"
+				            	value="#{searchRequest}"/>
+				            <p:commandButton type="submit" 
+				            	ajax="false"
+				            	action="#{dashboardBean.doCommonSearch(searchRequest)}"
+				            	value="Search" />
 				            <p:commandButton type="submit" 
 				            	action="#{loginBean.logout}"
 				            	rendered="#{request.userPrincipal != null}"
