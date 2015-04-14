@@ -33,7 +33,14 @@ CREATE TABLE customer_role (
 INSERT INTO customer_role (customer_id, role_id) VALUES (1, 1);
 INSERT INTO customer_role (customer_id, role_id) VALUES (2, 2);
 
-
+CREATE TABLE image (
+    id BIGINT AUTO_INCREMENT NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    alt VARCHAR(255),
+    content_type VARCHAR(255) NOT NULL,
+    path VARCHAR(255) NOT NULL,
+    PRIMARY KEY(id)
+) ENGINE=INNODB;
 
 CREATE TABLE product (
 	id BIGINT AUTO_INCREMENT NOT NULL,
@@ -41,7 +48,9 @@ CREATE TABLE product (
 	description VARCHAR(512),
 	full_description VARCHAR(1024),
 	cost NUMERIC(10,2),
-	PRIMARY KEY (id)
+	main_image_id BIGINT,
+	PRIMARY KEY (id),
+	CONSTRAINT FK_MAIN_IMAGE_PRODUCT FOREIGN KEY (main_image_id) REFERENCES image (id)
 ) ENGINE=INNODB;
 
 CREATE TABLE category (
@@ -56,14 +65,6 @@ CREATE TABLE category_product (
 	product_id BIGINT NOT NULL,
 	CONSTRAINT FK_CATEGORY_PRODUCT FOREIGN KEY (category_id) REFERENCES category (id),
 	CONSTRAINT FK_PRODUCT_CATEGORY FOREIGN KEY (product_id) REFERENCES product (id)
-) ENGINE=INNODB;
-
-CREATE TABLE image (
-    id BIGINT AUTO_INCREMENT NOT NULL,
-    file_name VARCHAR(255) NOT NULL,
-    content_type VARCHAR(255) NOT NULL,
-    path VARCHAR(255) NOT NULL,
-    PRIMARY KEY(id)
 ) ENGINE=INNODB;
 
 INSERT INTO product (id, title, description, full_description, cost) VALUES (1, 'Latex balloon green', 'Description Latex balloon green', 'Full description Latex balloon green', '1000.00');

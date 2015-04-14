@@ -14,7 +14,7 @@
 					<module-option name="principalsQuery"
 						value="SELECT password FROM customer WHERE customer_name=?" />
 					<module-option name="rolesQuery"
-						value="SELECT r.role_name, 'Roles' FROM role r, customer_role cr, customer c WHERE c.customer_name='admin' AND c.ID=cr.customer_id AND cr.role_id=r.ID" />
+						value="SELECT r.role_name, 'Roles' FROM role r, customer_role cr, customer c WHERE c.customer_name=? AND c.ID=cr.customer_id AND cr.role_id=r.ID" />
 					<!-- <module-option name="hashAlgorithm">MD5</module-option> <module-option 
 						name="hashEncoding">rfc2617</module-option> <module-option name="ignorePasswordCase">false</module-option> 
 						<module-option name="hashStorePassword">true</module-option> <module-option 

@@ -19,14 +19,46 @@
 	<div class="wrapper">
 		<div class="header">
 			<ui:insert name="header">
-				<h:outputText value="Default header"/>
+				<h:form id="header-form">
+					<h:outputText value="Default header"/>
+					 <p:menubar>
+					 	<p:menuitem value="Home" url="/" />
+					 	<p:submenu label="Shop">
+				            <p:menuitem value="Category 1" url="#" />
+				            <p:menuitem value="Category 2" url="#" />
+				        </p:submenu>
+				        <p:submenu label="Services">
+				            <p:menuitem value="Service 1" url="#" />
+				            <p:menuitem value="Service 2" url="#" />
+				        </p:submenu>
+				        <p:menuitem value="Administration" url="/admin/protected.xhtml" />
+				        <f:facet name="options">
+				        	<p:menuitem value="About us" url="/" />
+				            <p:inputText style="margin-right:10px" placeholder="Search"/>
+				            <p:commandButton type="submit" 
+				            	action="#{loginBean.logout}"
+				            	rendered="#{request.userPrincipal != null}"
+				            	value="Logout" />
+				        </f:facet>
+					 </p:menubar>
+				</h:form>
 			</ui:insert>
 		</div>
 
 		<div class="main">
-			<ui:insert name="main">
-				<h:outputText value="Default content"/>
-			</ui:insert>
+			<div class="ui-grid ui-grid-responsive">
+   				<div class="ui-grid-row">
+			        <div class="ui-grid-col-2">
+			        	
+			        </div>
+			        <div class="ui-grid-col-10">
+			        	<ui:insert name="main">
+							<h:outputText value="Default content"/>
+						</ui:insert>
+			        </div>
+			        <div class="ui-grid-col-2">Right menu</div>
+			    </div>
+			</div>
 		</div>
 
 		<div class="footer">
