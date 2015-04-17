@@ -79,7 +79,7 @@ public class Greeter implements Serializable {
     
     @PostConstruct
     public void fetchInitializationData() {
-        imageImporter.doImageImport("y:\\images");;
+//        imageImporter.doImageImport("y:\\images");;
 //    	categoryTree = categoryService.buildCategoryTree();
     	categoryList = categoryService.fetchCategories();
     }

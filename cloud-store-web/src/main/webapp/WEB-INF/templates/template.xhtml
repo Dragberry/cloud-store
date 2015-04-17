@@ -36,10 +36,10 @@
 				        	<p:menuitem value="About us" url="/" />
 				            <p:inputText style="margin-right:10px" 
 				            	placeholder="Search"
-				            	value="#{searchRequest}"/>
+				            	value="#{quickSearchBean.searchRequest}"/>
 				            <p:commandButton type="submit" 
 				            	ajax="false"
-				            	action="#{dashboardBean.doCommonSearch(searchRequest)}"
+				            	action="#{quickSearchBean.doQuickSearch}"
 				            	value="Search" />
 				            <p:commandButton type="submit" 
 				            	action="#{loginBean.logout}"
