@@ -1,0 +1,70 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+
+	
+	<url-mapping id="index">
+		<pattern value="/" />
+		<view-id value="/index.xhtml" />
+	</url-mapping>
+	
+	<!-- Shop -->
+	<url-mapping id="productList">
+		<pattern value="/shop/#{category}/" />
+		<view-id value="/faces/shop/productList.xhtml" />
+	</url-mapping>
+	
+	
+	<!--  Actions -->
+	<url-mapping id="santaClaus">
+		<pattern value="/santa-claus" />
+		<view-id value="/faces/actions/santaClaus.xhtml" />
+	</url-mapping>
+	<url-mapping id="originalCongratulation">
+		<pattern value="/original-congratulation" />
+		<view-id value="/faces/actions/originalCongratulation.xhtml" />
+	</url-mapping>
+	<url-mapping id="animatorAndToastMaster">
+		<pattern value="/animator-and-toast-master" />
+		<view-id value="/faces/actions/animatorAndToastMaster.xhtml" />
+	</url-mapping>
+	
+	<!-- Right menu -->
+	<url-mapping id="cart">
+		<pattern value="/cart" />
+		<view-id value="/faces/cart/cart.xhtml" />
+	</url-mapping>
+	<url-mapping id="aboutUs">
+		<pattern value="/about-us" />
+		<view-id value="/faces/aboutUs.xhtml" />
+	</url-mapping>
+	<url-mapping id="orderAndDelivery">
+		<pattern value="/order-and-delivery" />
+		<view-id value="/faces/orderAndDelivery.xhtml" />
+	</url-mapping>
+	<url-mapping id="administration">
+		<pattern value="/administration" />
+		<view-id value="/faces/administration.xhtml" />
+	</url-mapping>
+	
+	<!--  Promotions -->
+	<url-mapping id="actions">
+		<pattern value="/actions" />
+		<view-id value="/faces/promotions/actions.xhtml" />
+	</url-mapping>
+	<url-mapping id="actions">
+		<pattern value="/discount-cards" />
+		<view-id value="/faces/promotions/discountCards.xhtml" />
+	</url-mapping>
+	<url-mapping id="actions">
+		<pattern value="/gift-certificates" />
+		<view-id value="/faces/promotions/giftCertificates.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="originalGifts">
+		<pattern value="/original-gifts" />
+		<view-id value="/faces/shop/originalGifts.xhtml" />
+	</url-mapping>
+
+</pretty-config>

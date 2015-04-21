@@ -65,6 +65,7 @@ CREATE TABLE product (
 CREATE TABLE category (
 	id BIGINT AUTO_INCREMENT NOT NULL,
 	title VARCHAR(255),
+    code VARCHAR(32),
 	parent_id BIGINT,
 	PRIMARY KEY (id)
 ) ENGINE=INNODB;
@@ -86,13 +87,13 @@ INSERT INTO product (id, title, description, full_description, cost) VALUES (4, 
 INSERT INTO product (id, title, description, full_description, cost) VALUES (5, 'Turtle', 'Wool turtle', 'Wool turtle', '50000.00');
 
 
-INSERT INTO category (id, title, parent_id) VALUES (1, 'Balloons', NULL);
-INSERT INTO category (id, title, parent_id) VALUES (2, 'Ligth Balloons', 1);
-INSERT INTO category (id, title, parent_id) VALUES (3, 'Latex Balloons', 1);
-INSERT INTO category (id, title, parent_id) VALUES (4, 'Metalic Balloons', 1);
-INSERT INTO category (id, title, parent_id) VALUES (5, 'Wool toys', NULL);
-INSERT INTO category (id, title, parent_id) VALUES (6, 'Metallic Balloons Round', 4);
-INSERT INTO category (id, title, parent_id) VALUES (7, 'Metallic Balloons Figured', 4);
+INSERT INTO category (id, title, code, parent_id) VALUES (1, 'Воздушные шары', 'balloons', NULL);
+INSERT INTO category (id, title, code, parent_id) VALUES (2, 'Ligth Balloons', 'balloons', 1);
+INSERT INTO category (id, title, code, parent_id) VALUES (3, 'Latex Balloons','balloons', 1);
+INSERT INTO category (id, title, code, parent_id) VALUES (4, 'Metalic Balloons','balloons', 1);
+INSERT INTO category (id, title, code, parent_id) VALUES (5, 'Игрушки из шерсти', 'wool-toys', NULL);
+INSERT INTO category (id, title, code, parent_id) VALUES (6, 'Metallic Balloons Round', 'balloons', 4);
+INSERT INTO category (id, title, code, parent_id) VALUES (7, 'Metallic Balloons Figured', 'balloons', 4);
 
 INSERT INTO category_product (category_id, product_id) VALUES (1, 3);
 INSERT INTO category_product (category_id, product_id) VALUES (2, 3);

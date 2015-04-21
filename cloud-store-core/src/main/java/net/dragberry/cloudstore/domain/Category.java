@@ -21,6 +21,9 @@ public class Category extends AbstractEntity {
     
     @Column(name = "title")
     private String title;
+    
+    @Column(name = "code")
+    private String code;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "CATEGORY_PRODUCT", 
@@ -85,5 +88,13 @@ public class Category extends AbstractEntity {
     public void setSubCategories(Set<Category> subCategories) {
         this.subCategories = subCategories;
     }
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
 
 }

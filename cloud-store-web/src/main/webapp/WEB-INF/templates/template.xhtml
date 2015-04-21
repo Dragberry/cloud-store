@@ -5,7 +5,9 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:func="http://dragberry.net/functions">
 
 <h:head>
 	<title>
@@ -22,16 +24,21 @@
 				<h:form id="header-form">
 					<h:outputText value="Default header"/>
 					 <p:menubar>
-					 	<p:menuitem value="Home" url="/" />
-					 	<p:submenu label="Shop">
-				            <p:menuitem value="Category 1" url="/shop/productList.xhtml?category=1" />
-				            <p:menuitem value="Category 2" url="/shop/productList.xhtml?category=1" />
-				        </p:submenu>
-				        <p:submenu label="Services">
-				            <p:menuitem value="Service 1" url="#" />
-				            <p:menuitem value="Service 2" url="#" />
-				        </p:submenu>
-				        <p:menuitem value="Administration" url="/admin/protected.xhtml" />
+					 	<c:forEach  var="item" items="#{menuBean.mainMenu.leftList}">
+					 		<c:if test="#{empty item.subMenu}">
+					 			<p:menuitem value="#{translation.translate(item.titleKey)}" url="#{func:buildMenuPath(item)}" />
+					 		</c:if>
+					 		<c:if test="#{not empty item.subMenu}">
+					 			<p:submenu label="#{translation.translate(item.titleKey)}">
+					 				<c:forEach items="#{item.subMenu}" var="subItem">
+					 					<p:menuitem value="#{subItem.titleKey}" url="#{func:buildMenuPath(subItem)}" />
+					 				</c:forEach>
+					 			</p:submenu>
+					 		</c:if>
+					 	</c:forEach>
+					 	
+					 	
+					 	
 				        <f:facet name="options">
 				        	<p:menuitem value="About us" url="/" />
 				            <p:inputText style="margin-right:10px" 

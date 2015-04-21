@@ -47,7 +47,14 @@
 			<artifactId>all-themes</artifactId>
 			<version>1.0.8</version>
 		</dependency>
-
+		
+		<!-- Prettyfaces Library -->
+		<!-- for JSF 2.x -->
+		<dependency>
+			<groupId>com.ocpsoft</groupId>
+			<artifactId>prettyfaces-jsf2</artifactId>
+			<version>3.3.3</version>
+		</dependency>
 
 		<dependency>
 			<groupId>javax</groupId>
