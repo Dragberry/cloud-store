@@ -25,6 +25,7 @@ import net.dragberry.cloudstore.domain.Category_;
 import net.dragberry.cloudstore.domain.Product;
 import net.dragberry.cloudstore.domain.Product_;
 import net.dragberry.cloudstore.query.ProductListQuery;
+import net.dragberry.cloudstore.result.ProductList;
 
 @Stateless
 public class DeafaultProductDao extends AbstractDao<Product> implements ProductDao {
@@ -32,22 +33,61 @@ public class DeafaultProductDao extends AbstractDao<Product> implements ProductD
     private final static Log LOGGER = LogFactory.getLog(DefaultCategoryDao.class);
     
     @Override
-    public List<Product> fetchProducts(ProductListQuery productQuery) {
+    public ProductList fetchProducts(ProductListQuery productQuery) {
         LOGGER.info("Entering into DefaultProductDao.fetchProducts...");
+        
+        ProductList resultList = new ProductList();
+        
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Product> cq = cb.createQuery(Product.class);
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<Product> productRoot = cq.from(Product.class);
+        Root<Product> countRoot = countQuery.from(Product.class);
         
-        Predicate where = null;
-        if (productQuery.getId() != null) {
-            where = cb.equal(productRoot.get(Product_.id), productQuery.getId());
+        Join<Product, Category> joinProductCategory = productRoot.join(Product_.categories, JoinType.LEFT);
+        Join<Product, Category> joinProductCategoryCount = countRoot.join(Product_.categories, JoinType.LEFT);
+        
+        Predicate where = getWhereClause(productRoot, cb, productQuery, joinProductCategory);
+        Predicate whereCount = getWhereClause(countRoot, cb, productQuery, joinProductCategoryCount);
+        
+        countQuery.select(cb.count(countRoot));
+        
+        if (where != null) {
+            cq.where(where);
+            countQuery.where(whereCount);
         }
-        where = EntityServiceUtils.addAndLikeExpression(productQuery.getTitle(), Product_.title, where, cb, productRoot);
-        where = EntityServiceUtils.addAndLikeExpression(productQuery.getDescription(), Product_.description, where, cb, productRoot);
-        where = EntityServiceUtils.addAndLikeExpression(productQuery.getFullDescription(), Product_.fullDescription, where, cb, productRoot);
-        where = EntityServiceUtils.addRangeExpression(productQuery.getMinCost(), productQuery.getMaxCost(), Product_.cost, where, cb, productRoot);
+        cq.distinct(true);
+        countQuery.distinct(true);
         
-		Join<Product, Category> joinProductCategory = productRoot.join(Product_.categories, JoinType.LEFT);
+        Map<Class<?>, From<?, ?>>  sortMap = new HashMap<Class<?>, From<?,?>>();
+        sortMap.put(Product.class, productRoot);
+        sortMap.put(Category.class, joinProductCategory);
+        cq.orderBy(EntityServiceUtils.getOrders(productQuery.getSortList(), sortMap, cb));
+        
+        TypedQuery<Product> query = getEntityManager().createQuery(cq);
+        setPageableParams(productQuery, query);
+        
+        List<Product> productList = query.getResultList();
+        Long count = getEntityManager().createQuery(countQuery).getSingleResult();
+        
+        resultList.setList(productList);
+        resultList.setCount(count);
+        resultList.setPageNumber(productQuery.getPageNumber());
+        resultList.setPageSize(productQuery.getPageSize());
+        
+        return resultList;
+    }
+    
+    private Predicate getWhereClause(Root<Product> root, CriteriaBuilder cb, ProductListQuery productQuery, Join<Product, Category> joinProductCategory) {
+    	Predicate where = null;
+        if (productQuery.getId() != null) {
+            where = cb.equal(root.get(Product_.id), productQuery.getId());
+        }
+        where = EntityServiceUtils.addAndLikeExpression(productQuery.getTitle(), Product_.title, where, cb, root);
+        where = EntityServiceUtils.addAndLikeExpression(productQuery.getDescription(), Product_.description, where, cb, root);
+        where = EntityServiceUtils.addAndLikeExpression(productQuery.getFullDescription(), Product_.fullDescription, where, cb, root);
+        where = EntityServiceUtils.addRangeExpression(productQuery.getMinCost(), productQuery.getMaxCost(), Product_.cost, where, cb, root);
+        
         if (!productQuery.getCategoryIdList().isEmpty()) {
             In<Long> categories = cb.in(joinProductCategory.get(Category_.id));
             for (Long categoryId : productQuery.getCategoryIdList()) {
@@ -60,27 +100,15 @@ public class DeafaultProductDao extends AbstractDao<Product> implements ProductD
         	String[] words = productQuery.getSearchRequest().split("\\s+");
         	Predicate searchRequestWhere = null;
         	for (String word : words) {
-        		searchRequestWhere = EntityServiceUtils.addOrLikeExpression(word, Product_.title, searchRequestWhere, cb, productRoot);
-        		searchRequestWhere = EntityServiceUtils.addOrLikeExpression(word, Product_.description, searchRequestWhere, cb, productRoot);
-        		searchRequestWhere = EntityServiceUtils.addOrLikeExpression(word, Product_.fullDescription, searchRequestWhere, cb, productRoot);
+        		searchRequestWhere = EntityServiceUtils.addOrLikeExpression(word, Product_.title, searchRequestWhere, cb, root);
+        		searchRequestWhere = EntityServiceUtils.addOrLikeExpression(word, Product_.description, searchRequestWhere, cb, root);
+        		searchRequestWhere = EntityServiceUtils.addOrLikeExpression(word, Product_.fullDescription, searchRequestWhere, cb, root);
         		searchRequestWhere = EntityServiceUtils.addOrLikeExpression(word, Category_.title, searchRequestWhere, cb, joinProductCategory);
         	}
         	where = EntityServiceUtils.addAndLikeExpression(where, searchRequestWhere, cb);
         }
-        
-        if (where != null) {
-            cq.where(where);
-        }
-        
-        Map<Class<?>, From<?, ?>>  sortMap = new HashMap<Class<?>, From<?,?>>();
-        sortMap.put(Product.class, productRoot);
-        sortMap.put(Category.class, joinProductCategory);
-        cq.orderBy(EntityServiceUtils.getOrders(productQuery.getSortList(), sortMap, cb));
-        
-        cq.distinct(true);
-        TypedQuery<Product> query = getEntityManager().createQuery(cq);
-        setPageableParams(productQuery, query);
-        return query.getResultList();
+        return where;
     }
+    
 
 }

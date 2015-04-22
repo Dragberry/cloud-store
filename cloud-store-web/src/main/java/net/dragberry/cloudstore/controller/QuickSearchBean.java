@@ -3,7 +3,7 @@ package net.dragberry.cloudstore.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -29,7 +29,7 @@ public class QuickSearchBean implements Serializable {
 		query.setSearchRequest(searchRequest);
 		List<Product> productList = productService.fetchProducts(query);
 		greeter.setProductList(productList);
-		return "/shop/productList?faces-redirect=true";
+		return "/faces/shop/productList?faces-redirect=true";
 	}
 
 	public String getSearchRequest() {

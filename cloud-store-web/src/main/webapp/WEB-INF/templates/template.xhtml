@@ -40,14 +40,15 @@
 					 	
 					 	
 				        <f:facet name="options">
-				        	<p:menuitem value="About us" url="/" />
-				            <p:inputText style="margin-right:10px" 
+				            <p:inputText id="searchRequest"
+				            	style="margin-right:10px" 
 				            	placeholder="Search"
 				            	value="#{quickSearchBean.searchRequest}"/>
 				            <p:commandButton type="submit" 
 				            	ajax="false"
 				            	action="#{quickSearchBean.doQuickSearch}"
-				            	value="Search" />
+				            	value="Search"
+				            	process="searchRequest" />
 				            <p:commandButton type="submit" 
 				            	action="#{loginBean.logout}"
 				            	rendered="#{request.userPrincipal != null}"

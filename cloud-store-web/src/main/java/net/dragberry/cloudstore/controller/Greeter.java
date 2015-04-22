@@ -83,7 +83,7 @@ public class Greeter implements Serializable {
     public void search(String searchRequest, String title, String description, String fullDescription, String minCost, String maxCost) {
     	categoryService.buildCategoryTree();
     	ProductListQuery p = new ProductListQuery();
-    	p.setPageSize(10);
+    	p.setPageSize(3);
     	p.setPageNumber(1);
         p.setSearchRequest(searchRequest);
         p.setTitle(title);

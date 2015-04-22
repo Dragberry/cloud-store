@@ -22,7 +22,7 @@ public class ProductService implements ProductServiceLocal {
 	
     @Override
     public List<Product> fetchProducts(ProductListQuery query) {
-    	List<Product> products = defaultProductDao.fetchProducts(query);
+    	List<Product> products = defaultProductDao.fetchProducts(query).getList();
     	for (Product product : products) {
     		TreeNode<Category> categoryTree = defaultCategoryDao.fetchCategoriesForProduct(product.getId());
     		product.setCategoryTree(categoryTree);

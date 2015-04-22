@@ -21,7 +21,7 @@ public abstract class AbstractDao<T extends AbstractEntity> {
 		if (pageableQuery.getPageNumber() > -1 && pageableQuery.getPageSize() > 0) {
 	        query.setFirstResult((pageableQuery.getPageNumber() - 1) * pageableQuery.getPageSize());
 	        query.setMaxResults(pageableQuery.getPageSize());
-        }
+		}
 	}
 
 }
