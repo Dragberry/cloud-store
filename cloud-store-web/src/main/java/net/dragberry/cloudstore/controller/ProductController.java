@@ -6,8 +6,11 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.apache.commons.lang3.StringUtils;
 
 import net.dragberry.cloudstore.business.CategoryServiceLocal;
 import net.dragberry.cloudstore.business.ProductServiceLocal;
@@ -35,6 +38,10 @@ public class ProductController implements Serializable {
 			List<Category> categoryList = categoryService.fetchCategories();
 			productListModelBean.setCategoryList(categoryList);
 			productListModelBean.setInitialized(true);
+		}
+		String categoryCode = (String) FacesContext.getCurrentInstance().getAttributes().get("category");
+		if (StringUtils.isNotBlank(categoryCode)) {
+			
 		}
 	}
 	

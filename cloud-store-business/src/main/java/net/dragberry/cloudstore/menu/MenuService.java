@@ -35,7 +35,7 @@ public class MenuService implements MenuServiceLocal {
 		
 		MenuItem adminMenuItem = new MenuItem();
 		adminMenuItem.setTitleKey("CSadministration");
-		adminMenuItem.setPath("admin/index");
+		adminMenuItem.setPath("admin/generalSettings");
 		mainMenu.addLeftMenuItem(adminMenuItem);
 		
 		MenuItem aboutMenuItem = new MenuItem();

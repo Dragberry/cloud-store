@@ -24,7 +24,7 @@ public class ProductListModelBean implements Serializable {
 	private List<Product> productList = new ArrayList<Product>(); 
 	
 	private ProductListQuery productListQuery = new ProductListQuery();
-
+	
 	public List<Product> getProductList() {
 		return productList;
 	}

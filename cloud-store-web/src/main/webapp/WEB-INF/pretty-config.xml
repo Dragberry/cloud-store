@@ -15,6 +15,12 @@
 		<view-id value="/faces/shop/productList.xhtml" />
 	</url-mapping>
 	
+	<!-- Administration -->
+	<url-mapping id="generalSettings">
+		<pattern value="/admin/general-settings" />
+		<view-id value="/faces/admin/generalSettings.xhtml" />
+	</url-mapping>
+	
 	
 	<!--  Actions -->
 	<url-mapping id="santaClaus">
