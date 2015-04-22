@@ -7,20 +7,80 @@ import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.dragberry.cloudstore.collections.TreeNode;
+import net.dragberry.cloudstore.dao.util.EntityServiceUtils;
 import net.dragberry.cloudstore.domain.Category;
 import net.dragberry.cloudstore.domain.Category_;
 import net.dragberry.cloudstore.domain.Product;
 import net.dragberry.cloudstore.domain.Product_;
+import net.dragberry.cloudstore.query.CategoryListQuery;
+import net.dragberry.cloudstore.result.CategoryList;
 
 @Stateless
 public class DefaultCategoryDao extends AbstractDao<Category> implements CategoryDao {
+	
+	private final static Log LOGGER = LogFactory.getLog(DefaultCategoryDao.class);
+	
+	@Override
+	public Category fetchSingleCategory(CategoryListQuery categoryQuery) {
+		LOGGER.info("Entering into DefaultCategoryDao.fetchSingleCategory...");
+		
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Category> cq = cb.createQuery(Category.class);
+		Root<Category> categoryRoot = cq.from(Category.class);
+		Predicate where = null;
+		if (categoryQuery.getId() != null) {
+            where = cb.equal(categoryRoot.get(Category_.id), categoryQuery.getId());
+        }
+		else if (categoryQuery.getCode() != null) {
+			where = cb.equal(categoryRoot.get(Category_.code), categoryQuery.getCode());
+		}
+		if (where != null) {
+			cq.where(where);
+		}
+		cq.distinct(true);
+		return getEntityManager().createQuery(cq).getSingleResult();
+	}
+	
+	
+	@Override
+	public CategoryList fetchCategories(CategoryListQuery categoryQuery) {
+		LOGGER.info("Entering into DefaultCategoryDao.fetchCategories...");
+		
+		CategoryList resultList = new CategoryList();
+		
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Category> cq = cb.createQuery(Category.class);
+		Root<Category> categoryRoot = cq.from(Category.class);
+		Predicate where = null;
+        if (categoryQuery.getId() != null) {
+            where = cb.equal(categoryRoot.get(Category_.id), categoryQuery.getId());
+        }
+        where = EntityServiceUtils.addAndEqualExpression(categoryQuery.getCode(), Category_.code, where, cb, categoryRoot);
+        where = EntityServiceUtils.addAndLikeExpression(categoryQuery.getTitle(), Category_.title, where, cb, categoryRoot);
+		if (where != null) {
+			cq.where(where);
+		}
+		TypedQuery<Category> query = getEntityManager().createQuery(cq);
+        setPageableParams(categoryQuery, query);
+		List<Category> categoryList = query.getResultList();
+		resultList.setList(categoryList);
+//        resultList.setCount(count);
+        resultList.setPageNumber(categoryQuery.getPageNumber());
+        resultList.setPageSize(categoryQuery.getPageSize());
+        
+        return resultList;
+	}
 	
 	@Override
 	public TreeNode<Category> getCategoryTree() {

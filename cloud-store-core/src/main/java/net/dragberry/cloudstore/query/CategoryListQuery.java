@@ -3,11 +3,13 @@ package net.dragberry.cloudstore.query;
 import java.io.Serializable;
 import net.dragberry.cloudstore.domain.Category;
 
-public class CategoryQuery  extends SortableQuery implements Serializable {
+public class CategoryListQuery extends SortableQuery implements Serializable {
 
 	private static final long serialVersionUID = -2705861994972353360L;
 
 	private Long id;
+	
+	private String code;
     
     private String title;
     
@@ -35,6 +37,14 @@ public class CategoryQuery  extends SortableQuery implements Serializable {
 
 	public void setParentCategory(Category parentCategory) {
 		this.parentCategory = parentCategory;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
     
 }

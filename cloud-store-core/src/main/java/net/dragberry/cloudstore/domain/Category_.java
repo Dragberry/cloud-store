@@ -8,6 +8,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public class Category_ extends AbstractEntity_ {
 	
     public static volatile SingularAttribute<Category, String> title;
+    public static volatile SingularAttribute<Category, String> code;
     public static volatile SetAttribute<Category, Product> products;
     public static volatile SingularAttribute<Category, Category> parentCategory;
 

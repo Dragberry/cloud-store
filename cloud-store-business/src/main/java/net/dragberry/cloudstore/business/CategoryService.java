@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import net.dragberry.cloudstore.collections.TreeNode;
 import net.dragberry.cloudstore.dao.CategoryDao;
 import net.dragberry.cloudstore.domain.Category;
+import net.dragberry.cloudstore.query.CategoryListQuery;
 
 @Stateless
 public class CategoryService implements CategoryServiceLocal {
@@ -28,6 +29,11 @@ public class CategoryService implements CategoryServiceLocal {
 	@Override
 	public TreeNode<Category> fetchCategoriesForProduct(Long productId) {
 		return defaultCategoryDao.fetchCategoriesForProduct(productId);
+	}
+	
+	@Override
+	public Category fetchSingleCategory(CategoryListQuery categoryQuery) {
+		return defaultCategoryDao.fetchSingleCategory(categoryQuery);
 	}
 
 }

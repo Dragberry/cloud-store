@@ -2,6 +2,7 @@ package net.dragberry.cloudstore.controller;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -16,6 +17,7 @@ import net.dragberry.cloudstore.business.CategoryServiceLocal;
 import net.dragberry.cloudstore.business.ProductServiceLocal;
 import net.dragberry.cloudstore.domain.Category;
 import net.dragberry.cloudstore.model.ProductListModelBean;
+import net.dragberry.cloudstore.query.CategoryListQuery;
 import net.dragberry.cloudstore.query.ProductListQuery;
 import net.dragberry.cloudstore.result.ProductList;
 
@@ -39,10 +41,16 @@ public class ProductController implements Serializable {
 			productListModelBean.setCategoryList(categoryList);
 			productListModelBean.setInitialized(true);
 		}
-		String categoryCode = (String) FacesContext.getCurrentInstance().getAttributes().get("category");
+		String categoryCode = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("category");
 		if (StringUtils.isNotBlank(categoryCode)) {
-			
+			CategoryListQuery categoryQuery = new CategoryListQuery();
+			categoryQuery.setCode(categoryCode);
+			Category category = categoryService.fetchSingleCategory(categoryQuery);
+			List<Long> categoryIds = new ArrayList<Long>();
+			categoryIds.add(category.getId());
+			productListModelBean.getProductListQuery().setCategoryIdList(categoryIds);
 		}
+		doSearch();
 	}
 	
 	public void doSearch() {
