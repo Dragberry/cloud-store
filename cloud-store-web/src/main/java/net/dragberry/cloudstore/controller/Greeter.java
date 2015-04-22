@@ -96,7 +96,7 @@ public class Greeter implements Serializable {
     	p.setCategoryIdList(ids);
     	p.setMinCost(StringUtils.isBlank(minCost) ? null : new BigDecimal(minCost));
     	p.setMaxCost(StringUtils.isBlank(maxCost) ? null : new BigDecimal(maxCost));
-    	productList = productService.fetchProducts(p);
+    	productList = productService.fetchProducts(p).getList();
     	
     	for (Product product : productList) {
     		LOGGER.info(product.getTitle());

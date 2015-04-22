@@ -1,15 +1,13 @@
 package net.dragberry.cloudstore.business;
 
-import java.util.List;
-
 import javax.ejb.Local;
 
-import net.dragberry.cloudstore.domain.Product;
 import net.dragberry.cloudstore.query.ProductListQuery;
+import net.dragberry.cloudstore.result.ProductList;
 
 @Local
 public interface ProductServiceLocal {
 	
-	List<Product> fetchProducts(ProductListQuery query);
+	ProductList fetchProducts(ProductListQuery query);
 
 }

@@ -27,9 +27,9 @@ public class QuickSearchBean implements Serializable {
 	public String doQuickSearch() {
 		ProductListQuery query = new ProductListQuery();
 		query.setSearchRequest(searchRequest);
-		List<Product> productList = productService.fetchProducts(query);
+		List<Product> productList = productService.fetchProducts(query).getList();
 		greeter.setProductList(productList);
-		return "/faces/shop/productList?faces-redirect=true";
+		return "/faces/searchResult?faces-redirect=true";
 	}
 
 	public String getSearchRequest() {

@@ -4,37 +4,43 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:shop="http://java.sun.com/jsf/composite/shop">
+    xmlns:pe="http://primefaces.org/ui/extensions">
 <ui:define name="main">
 	<h:form id="cloud-store-form">
+		#{productController.init()}
 		<h:panelGrid columns="2">
 			<h:outputLabel>Search request:</h:outputLabel>
-			<h:inputText value="#{searchRequest}" />
+			<p:inputText value="#{productListModelBean.productListQuery.searchRequest}" />
 			<h:outputLabel>Title:</h:outputLabel>
-			<h:inputText value="#{title}" />
+			<p:inputText value="#{productListModelBean.productListQuery.title}" />
 			<h:outputLabel>Description:</h:outputLabel>
-			<h:inputText value="#{description}" />
+			<p:inputText value="#{productListModelBean.productListQuery.description}" />
 			<h:outputLabel>Full description:</h:outputLabel>
-			<h:inputText value="#{fullDescription}" />
+			<p:inputText value="#{productListModelBean.productListQuery.fullDescription}" />
 			<h:outputLabel>Min cost:</h:outputLabel>
-			<h:inputText value="#{minCost}" />
+			<pe:inputNumber value="#{productListModelBean.productListQuery.minCost}" 
+				minValue="0" />
 			<h:outputLabel>Max cost:</h:outputLabel>
-			<h:inputText value="#{maxCost}" />
+			<pe:inputNumber value="#{productListModelBean.productListQuery.maxCost}"
+				minValue="0" />
 			<h:outputLabel>Categories:</h:outputLabel>
-			<h:selectManyListbox value="#{greeter.selectedCategoryIds}">
-				<f:selectItems value="#{greeter.categoryList}" 
+			<p:selectManyMenu value="#{productListModelBean.productListQuery.categoryIdList}" converter="javax.faces.Long">
+				<f:selectItems value="#{productListModelBean.categoryList}" 
 					var="category"
 					itemLabel="#{category.title}" 
 					itemValue="#{category.id}" />
-			</h:selectManyListbox>
+			</p:selectManyMenu>
 			<p:commandButton id="search" 
 				value="Search"
-				action="#{greeter.search(searchRequest, title, description, fullDescription, minCost, maxCost)}"
-				update="datatable">
-			</p:commandButton>
+				action="#{productController.doSearch}"
+				update="datatable"/>
+			<p:commandButton id="reset" 
+				value="Reset"
+				action="#{productController.doReset}"
+				update="datatable"/>
 		</h:panelGrid>
 		<p:dataTable id="datatable"
-			value="#{greeter.productList}" 
+			value="#{productListModelBean.productList}" 
 			var="product"
 			style="border: 1px solid">
 			<p:column>
