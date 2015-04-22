@@ -8,7 +8,7 @@ import net.dragberry.cloudstore.result.CategoryList;
 
 public interface CategoryDao {
 	
-	Category fetchSingleCategory(CategoryListQuery categoryQuery);
+	Category fetchCategoryByCode(String code);
 	
 	CategoryList fetchCategories(CategoryListQuery categoryQuery);
 	

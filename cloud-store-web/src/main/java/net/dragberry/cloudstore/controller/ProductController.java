@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -17,7 +16,6 @@ import net.dragberry.cloudstore.business.CategoryServiceLocal;
 import net.dragberry.cloudstore.business.ProductServiceLocal;
 import net.dragberry.cloudstore.domain.Category;
 import net.dragberry.cloudstore.model.ProductListModelBean;
-import net.dragberry.cloudstore.query.CategoryListQuery;
 import net.dragberry.cloudstore.query.ProductListQuery;
 import net.dragberry.cloudstore.result.ProductList;
 
@@ -34,7 +32,6 @@ public class ProductController implements Serializable {
 	@Inject
 	private ProductServiceLocal productService;
 	
-	@PostConstruct
 	public void init() {
 		if (!productListModelBean.isInitialized()) {
 			List<Category> categoryList = categoryService.fetchCategories();
@@ -43,9 +40,7 @@ public class ProductController implements Serializable {
 		}
 		String categoryCode = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("category");
 		if (StringUtils.isNotBlank(categoryCode)) {
-			CategoryListQuery categoryQuery = new CategoryListQuery();
-			categoryQuery.setCode(categoryCode);
-			Category category = categoryService.fetchSingleCategory(categoryQuery);
+			Category category = categoryService.fetchCategoryByCode(categoryCode);
 			List<Long> categoryIds = new ArrayList<Long>();
 			categoryIds.add(category.getId());
 			productListModelBean.getProductListQuery().setCategoryIdList(categoryIds);
