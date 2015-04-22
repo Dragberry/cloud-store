@@ -38,9 +38,7 @@ import org.apache.commons.logging.LogFactory;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -63,9 +61,7 @@ public class Greeter implements Serializable {
 	
 	private List<String> selectedCategoryIds = new  ArrayList<String>();
 	
-	private TreeNode<Category> categoryTree = null;
-
-    @EJB
+	@EJB
     private ProductServiceLocal productService;
     
     @EJB
@@ -85,8 +81,10 @@ public class Greeter implements Serializable {
     }
 
     public void search(String searchRequest, String title, String description, String fullDescription, String minCost, String maxCost) {
-    	categoryTree = categoryService.buildCategoryTree();
+    	categoryService.buildCategoryTree();
     	ProductListQuery p = new ProductListQuery();
+    	p.setPageSize(10);
+    	p.setPageNumber(1);
         p.setSearchRequest(searchRequest);
         p.setTitle(title);
     	p.setDescription(description);

@@ -68,21 +68,6 @@ public class DefaultCategoryDao extends AbstractDao<Category> implements Categor
 		}
 	}
 	
-	private List<Category> fetchCategories(Category parentCategory) {
-		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-		CriteriaQuery<Category> cq = cb.createQuery(Category.class);
-		Root<Category> categoryRoot = cq.from(Category.class);
-		Predicate where = cb.equal(categoryRoot.get(Category_.parentCategory), parentCategory);
-		cq.where(where);
-		List<Category> cs = getEntityManager().createQuery(cq).getResultList();
-		for (Category c : cs) {
-			if (c.hasChildren()) {
-				c.setSubCategories(new HashSet<Category>(fetchCategories(c)));
-			}
-		}
-		return cs;
-	}
-	
 	@Override
 	public TreeNode<Category> fetchCategoriesForProduct(Long productId) {
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();

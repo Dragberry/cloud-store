@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.CriteriaQuery;
@@ -77,7 +78,9 @@ public class DeafaultProductDao extends AbstractDao<Product> implements ProductD
         cq.orderBy(EntityServiceUtils.getOrders(productQuery.getSortList(), sortMap, cb));
         
         cq.distinct(true);
-        return getEntityManager().createQuery(cq).getResultList();
+        TypedQuery<Product> query = getEntityManager().createQuery(cq);
+        setPageableParams(productQuery, query);
+        return query.getResultList();
     }
 
 }

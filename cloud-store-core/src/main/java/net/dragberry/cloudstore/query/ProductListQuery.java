@@ -4,16 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import net.dragberry.cloudstore.query.sort.SortItem;
-import net.dragberry.cloudstore.query.sort.SortOrder;
-
-public class ProductListQuery implements Serializable {
+public class ProductListQuery extends SortableQuery implements Serializable {
 
     private static final long serialVersionUID = 2392814791170770444L;
     
@@ -30,8 +22,6 @@ public class ProductListQuery implements Serializable {
     private BigDecimal minCost;
     
     private BigDecimal maxCost;
-    
-    private Set<SortItem> sortList = new TreeSet<SortItem>();
     
     private List<Long> categoryIdList = new ArrayList<Long>();
     
@@ -91,12 +81,6 @@ public class ProductListQuery implements Serializable {
 		this.maxCost = maxCost;
 	}
 
-	public Set<SortItem> getSortList() {
-        return sortList;
-    }
-	
-	
-    
     public String getSearchRequest() {
 		return searchRequest;
 	}
@@ -104,17 +88,5 @@ public class ProductListQuery implements Serializable {
 	public void setSearchRequest(String searchRequest) {
 		this.searchRequest = searchRequest;
 	}
-
-	public void addSortItem(String field, SortOrder sortOrder, Class<?> type, Integer order) {
-        SortItem sortItem = new SortItem();
-        sortItem.setDirection(sortOrder);
-        sortItem.setField(field);
-        sortItem.setOrder(order);
-        sortItem.setType(type);
-        if (sortList == null) {
-        	sortList = new TreeSet<SortItem>();
-        }
-       sortList.add(sortItem);
-    }
 
 }
