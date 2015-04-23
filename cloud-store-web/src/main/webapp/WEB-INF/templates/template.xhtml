@@ -21,9 +21,38 @@
 	<div class="wrapper">
 		<div class="header">
 			<ui:insert name="header">
+				
+				<h:form id="login-form">
+					<h:panelGroup rendered="#{request.userPrincipal == null}">
+						<h:panelGrid columns="2">
+							<p:outputLabel for="usernameInput" 
+								value="#{translation.translate('CSusername')}:"/>
+							<p:inputText id="usernameInput" 
+								value="#{loginBean.username}" 
+								required="true" />
+							<p:outputLabel for="passwordInput" 
+								value="#{translation.translate('CSpassword')}:"/>
+							<p:password id="passwordInput" 
+								value="#{loginBean.password}" 
+								required="true" />
+							<p:commandButton value="#{translation.translate('CSlogin')}" 
+								action="#{loginBean.login}" 
+								update="@form, @([id$=main-menu])"/>
+						</h:panelGrid>
+					</h:panelGroup>
+					
+					<h:panelGroup rendered="#{request.userPrincipal != null}">
+						<h:outputText value="#{translation.translate('CSwelcome', request.userPrincipal.name)}"/>
+						<p:commandButton type="submit" 
+			            	action="#{loginBean.logout}"
+			            	rendered="#{request.userPrincipal != null}"
+			            	value="#{translation.translate('CSlogout')}"
+			            	update="@([id$=main-menu])" />
+					</h:panelGroup>
+				</h:form>
+				
 				<h:form id="header-form">
-					<h:outputText value="Default header"/>
-					 <p:menubar>
+					 <p:menubar id="main-menu">
 					 	<c:forEach  var="item" items="#{menuBean.mainMenu.leftList}">
 					 		<c:if test="#{empty item.subMenu}">
 					 			<p:menuitem value="#{translation.translate(item.titleKey)}" url="#{func:buildMenuPath(item)}" />
@@ -49,10 +78,6 @@
 				            	action="#{quickSearchBean.doQuickSearch}"
 				            	value="#{translation.translate('CSsearch')}"
 				            	process="searchRequest" />
-				            <p:commandButton type="submit" 
-				            	action="#{loginBean.logout}"
-				            	rendered="#{request.userPrincipal != null}"
-				            	value="#{translation.translate('CSlogout')}" />
 				        </f:facet>
 					 </p:menubar>
 				</h:form>

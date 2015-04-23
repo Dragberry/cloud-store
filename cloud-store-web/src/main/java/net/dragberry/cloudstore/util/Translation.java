@@ -32,8 +32,9 @@ public class Translation implements Serializable {
         return getResourceBundle().getString(key);
     }
 
-    public String translate(String key, Object... params) {
-        return MessageFormat.format(getResourceBundle().getString(key), params);
+    
+    public String translate(String key, String param) {
+        return MessageFormat.format(getResourceBundle().getString(key), param);
     }
     
     public String translateAll(String key, String... keys) {

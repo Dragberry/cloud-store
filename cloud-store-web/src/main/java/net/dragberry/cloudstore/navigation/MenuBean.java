@@ -26,6 +26,10 @@ public class MenuBean implements Serializable {
 		mainMenu = menuService.getMainMenu();
 	}
 	
+	public void reloadMenu() {
+		mainMenu = menuService.getMainMenu();
+	}
+	
 	public MainMenu getMainMenu() {
 		return mainMenu;
 	}

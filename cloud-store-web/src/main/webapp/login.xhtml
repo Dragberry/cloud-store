@@ -3,18 +3,27 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-<body>
-	<form method="POST" action="j_security_check" id="">
-		<h:panelGrid id="panel" columns="2" border="1" cellpadding="4"
-			cellspacing="4">
-			<h:outputLabel for="j_username" value="Username:" />
-			<input type="text" name="j_username" />
-			<h:outputLabel for="j_password" value="Password:" />
-			<input type="password" name="j_password" />
-			<h:panelGroup>
-				<input type="submit" value="Login" />
-			</h:panelGroup>
-		</h:panelGrid>
-	</form>
-</body>
+<h:body>
+
+	<h:form id="login-form">
+		<h:panelGroup rendered="#{request.userPrincipal == null}">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="usernameInput" 
+					value="#{translation.translate('CSusername')}:"/>
+				<p:inputText id="usernameInput" 
+					value="#{loginBean.username}" 
+					required="true" />
+				<p:outputLabel for="passwordInput" 
+					value="#{translation.translate('CSpassword')}:"/>
+				<p:password id="passwordInput" 
+					value="#{loginBean.password}" 
+					required="true" />
+				<p:commandButton value="#{translation.translate('CSlogin')}" 
+					action="#{loginBean.login(context.viewId)}" 
+					update="@form"/>
+			</h:panelGrid>
+		</h:panelGroup>
+	</h:form>
+
+</h:body>
 </html>

@@ -3,6 +3,8 @@ package net.dragberry.cloudstore.menu;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -12,11 +14,16 @@ import net.dragberry.cloudstore.domain.Category;
 @Stateless
 public class MenuService implements MenuServiceLocal {
 	
+	@Resource
+	private SessionContext sessionContext;
+	
 	@Inject
 	private CategoryServiceLocal categoryService;
 
 	@Override
 	public MainMenu getMainMenu() {
+		boolean isAdmin = sessionContext.isCallerInRole("admin");
+		
 		MainMenu mainMenu = new MainMenu();
 		
 		MenuItem homeMenuItem = new MenuItem();
@@ -33,10 +40,12 @@ public class MenuService implements MenuServiceLocal {
 		servicesMenuItem.setTitleKey("CSservices");
 		mainMenu.addLeftMenuItem(servicesMenuItem);
 		
-		MenuItem adminMenuItem = new MenuItem();
-		adminMenuItem.setTitleKey("CSadministration");
-		adminMenuItem.setPath("admin/generalSettings");
-		mainMenu.addLeftMenuItem(adminMenuItem);
+		if (isAdmin) {
+			MenuItem adminMenuItem = new MenuItem();
+			adminMenuItem.setTitleKey("CSadministration");
+			adminMenuItem.setPath("admin/dashboard");
+			mainMenu.addLeftMenuItem(adminMenuItem);
+		}
 		
 		MenuItem aboutMenuItem = new MenuItem();
 		aboutMenuItem.setTitleKey("CSaboutUs");

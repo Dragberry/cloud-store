@@ -14,11 +14,15 @@
 		<pattern value="/shop/#{category}/" />
 		<view-id value="/faces/shop/productList.xhtml" />
 	</url-mapping>
+	<url-mapping id="productDetails">
+		<pattern value="/shop/product/#{productId}" />
+		<view-id value="/faces/shop/productDetails.xhtml" />
+	</url-mapping>
 	
 	<!-- Administration -->
 	<url-mapping id="generalSettings">
-		<pattern value="/admin/general-settings" />
-		<view-id value="/faces/admin/generalSettings.xhtml" />
+		<pattern value="/admin/dashboard" />
+		<view-id value="/faces/admin/dashboard.xhtml" />
 	</url-mapping>
 	
 	
