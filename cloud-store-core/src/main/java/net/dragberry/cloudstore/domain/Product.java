@@ -36,19 +36,19 @@ public class Product extends AbstractEntity {
     private String title;
     
     /**
-     * A product title
+     * A product description
      */
     @Column(name = "description")
     private String description;
     
     /**
-     * A product title
+     * A product full description
      */
     @Column(name = "full_description")
     private String fullDescription;
     
     /**
-     * A product title
+     * A product cost
      */
     @Column(name = "cost")
     private BigDecimal cost;

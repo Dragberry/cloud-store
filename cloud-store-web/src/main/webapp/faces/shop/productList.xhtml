@@ -8,79 +8,80 @@
 <ui:define name="main">
 	<h:form id="cloud-store-form">
 		#{productController.init()}
-		<h:panelGrid columns="2">
-			<h:outputLabel>Search request:</h:outputLabel>
-			<p:inputText value="#{productListModelBean.productListQuery.searchRequest}" />
-			<h:outputLabel>Title:</h:outputLabel>
-			<p:inputText value="#{productListModelBean.productListQuery.title}" />
-			<h:outputLabel>Description:</h:outputLabel>
-			<p:inputText value="#{productListModelBean.productListQuery.description}" />
-			<h:outputLabel>Full description:</h:outputLabel>
-			<p:inputText value="#{productListModelBean.productListQuery.fullDescription}" />
-			<h:outputLabel>Min cost:</h:outputLabel>
-			<pe:inputNumber value="#{productListModelBean.productListQuery.minCost}" 
-				minValue="0" />
-			<h:outputLabel>Max cost:</h:outputLabel>
-			<pe:inputNumber value="#{productListModelBean.productListQuery.maxCost}"
-				minValue="0" />
-			<h:outputLabel>Categories:</h:outputLabel>
-			<p:selectManyMenu value="#{productListModelBean.productListQuery.categoryIdList}" converter="javax.faces.Long">
-				<f:selectItems value="#{productListModelBean.categoryList}" 
-					var="category"
-					itemLabel="#{category.title}" 
-					itemValue="#{category.id}" />
-			</p:selectManyMenu>
-			<p:commandButton id="search" 
-				value="Search"
-				action="#{productController.doSearch}"
-				update="datatable"/>
-			<p:commandButton id="reset" 
-				value="Reset"
-				action="#{productController.doReset}"
-				update="datatable"/>
-		</h:panelGrid>
-		<p:dataTable id="datatable"
-			value="#{productListModelBean.productList}" 
-			var="product"
-			style="border: 1px solid">
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="ID" />
-				</f:facet>
-				<h:outputText value="#{product.id}" />
-			</p:column>
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="Title" />
-				</f:facet>
-				<h:outputText value="#{product.title}" />
-			</p:column>
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="Description" />
-				</f:facet>
-				<h:outputText value="#{product.description}" />
-			</p:column>
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="Full Description" />
-				</f:facet>
-				<h:outputText value="#{product.fullDescription}" />
-			</p:column>
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="Cost" />
-				</f:facet>
-				<h:outputText value="#{product.cost}" />
-			</p:column>
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="Image" />
-				</f:facet>
-				<h:graphicImage
+		<p:fieldset toggleable="true" legend="Search criteria">
+			<h:panelGrid columns="2">
+				<h:outputLabel>Search request:</h:outputLabel>
+				<p:inputText value="#{productListModelBean.productListQuery.searchRequest}" />
+				<h:outputLabel>Title:</h:outputLabel>
+				<p:inputText value="#{productListModelBean.productListQuery.title}" />
+				<h:outputLabel>Description:</h:outputLabel>
+				<p:inputText value="#{productListModelBean.productListQuery.description}" />
+				<h:outputLabel>Full description:</h:outputLabel>
+				<p:inputText value="#{productListModelBean.productListQuery.fullDescription}" />
+				<h:outputLabel>Min cost:</h:outputLabel>
+				<pe:inputNumber value="#{productListModelBean.productListQuery.minCost}" 
+					minValue="0" />
+				<h:outputLabel>Max cost:</h:outputLabel>
+				<pe:inputNumber value="#{productListModelBean.productListQuery.maxCost}"
+					minValue="0" />
+				<h:outputLabel>Categories:</h:outputLabel>
+				<p:selectManyMenu value="#{productListModelBean.productListQuery.categoryIdList}" converter="javax.faces.Long">
+					<f:selectItems value="#{productListModelBean.categoryList}" 
+						var="category"
+						itemLabel="#{category.title}" 
+						itemValue="#{category.id}" />
+				</p:selectManyMenu>
+				<p:commandButton id="search" 
+					value="Search"
+					action="#{productController.doSearch}"
+					update="product-data-grid"/>
+				<p:commandButton id="reset" 
+					value="Reset"
+					action="#{productController.doReset}"
+					update="product-data-grid"/>
+			</h:panelGrid>
+		</p:fieldset>
+		
+		<p:dataGrid id="product-data-grid"
+			value="#{productListModelBean.productList}"
+	       	var="product"  
+			columns="3" 
+			layout="grid">
+ 
+        <p:panel styleClass="product-item-grid text-center">
+        	<f:facet name="header">
+        		<h:link outcome="/faces/shop/product?productId=#{product.id}" 
+        			target="_blank">
+        			<h:outputText value="#{product.title}" />
+        		</h:link>
+        	</f:facet>
+        	
+        	<p:outputPanel styleClass="product-item-image-wrapper">
+	        	<h:link title="moreInfo" 
+	        		outcome="/faces/shop/product?productId=#{product.id}" 
+	        		target="_blank">
+	        		<h:graphicImage
 					value="/images/#{product.mainImage.path}#{product.mainImage.fileName}" />
-			</p:column>
-		</p:dataTable>
+	        	</h:link>
+        	</p:outputPanel>
+
+       		<p:outputPanel>
+       			<h:outputText value="#{product.cost}" />
+       		</p:outputPanel>
+       		
+       		<p:outputPanel>
+	        	<h:outputText value="#{product.description}" />
+	        </p:outputPanel>
+	        
+	        <p:commandButton id="addToCartButton"
+	        	value="HTaddToCart"
+	        	ajax="true"
+	        	process="@this" />
+        </p:panel>
+ 
+    </p:dataGrid>
+		
+		
 	</h:form>
 </ui:define>
 </ui:composition>
