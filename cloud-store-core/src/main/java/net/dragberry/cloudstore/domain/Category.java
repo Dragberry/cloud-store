@@ -24,6 +24,12 @@ public class Category extends AbstractEntity {
     
     @Column(name = "code")
     private String code;
+    
+    @Column(name = "description")
+    private String description;
+    
+    @Column(name = "full_description")
+    private String fullDescription;
 
     @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
     private Set<Product> products;
@@ -92,6 +98,22 @@ public class Category extends AbstractEntity {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getFullDescription() {
+		return fullDescription;
+	}
+
+	public void setFullDescription(String fullDescription) {
+		this.fullDescription = fullDescription;
 	}
 
 }
