@@ -42,17 +42,17 @@
 				        <f:facet name="options">
 				            <p:inputText id="searchRequest"
 				            	style="margin-right:10px" 
-				            	placeholder="Search"
+				            	placeholder="#{translation.translate('CSsearch')}"
 				            	value="#{quickSearchBean.searchRequest}"/>
 				            <p:commandButton type="submit" 
 				            	ajax="false"
 				            	action="#{quickSearchBean.doQuickSearch}"
-				            	value="Search"
+				            	value="#{translation.translate('CSsearch')}"
 				            	process="searchRequest" />
 				            <p:commandButton type="submit" 
 				            	action="#{loginBean.logout}"
 				            	rendered="#{request.userPrincipal != null}"
-				            	value="Logout" />
+				            	value="#{translation.translate('CSlogout')}" />
 				        </f:facet>
 					 </p:menubar>
 				</h:form>

@@ -3,15 +3,15 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:shop="http://java.sun.com/jsf/composite/shop">
+    xmlns:p="http://primefaces.org/ui">
+    
 <ui:define name="main">
 	<ui:repeat var="item" value="#{dashboardBean.items}">
 		<p:outputPanel layout="block">
 			<h2>
 				<h:outputText value="#{item.title}"/>
 			</h2>
-			<h:outputText value="#{item.text}"/>
+			<h:outputText value="#{translation.formatStringWithKeys(item.text)}"/>
 		</p:outputPanel>
 	</ui:repeat>	
 </ui:define>
