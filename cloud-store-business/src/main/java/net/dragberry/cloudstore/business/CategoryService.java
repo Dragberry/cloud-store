@@ -35,4 +35,9 @@ public class CategoryService implements CategoryServiceLocal {
 		return defaultCategoryDao.fetchCategoryByCode(code);
 	}
 
+	@Override
+	public Category fetchCategoryByTitle(String title) {
+		return defaultCategoryDao.fetchCategoryByTitle(title);
+	}
+
 }

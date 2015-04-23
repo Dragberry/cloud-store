@@ -31,12 +31,31 @@ public class DefaultCategoryDao extends AbstractDao<Category> implements Categor
 	
 	private final static Log LOGGER = LogFactory.getLog(DefaultCategoryDao.class);
 	
+	@Override
+	public Category fetchCategoryByTitle(String title) {
+		LOGGER.info("Entering into DefaultCategoryDao.fetchCategoryByTitle...");
+		
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Category> cq = cb.createQuery(Category.class);
+		Root<Category> categoryRoot = cq.from(Category.class);
+		Predicate where = cb.equal(categoryRoot.get(Category_.title), title);
+		cq.where(where);
+		List<Category> resultList = getEntityManager().createQuery(cq).getResultList();
+		if (resultList.isEmpty()) {
+			return null;
+		} else {
+			return resultList.get(0);
+		}
+	}
+	
 	public Category fetchCategoryByCode(String code) {
 		LOGGER.info("Entering into DefaultCategoryDao.fetchCategoryByCode...");
 		
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Category> cq = cb.createQuery(Category.class);
 		Root<Category> categoryRoot = cq.from(Category.class);
+		Predicate where = cb.equal(categoryRoot.get(Category_.code), code);
+		cq.where(where);
 		cb.equal(categoryRoot.get(Category_.code), code);
 		List<Category> resultList = getEntityManager().createQuery(cq).getResultList();
 		if (resultList.isEmpty()) {

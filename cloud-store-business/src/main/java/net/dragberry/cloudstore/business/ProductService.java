@@ -29,4 +29,9 @@ public class ProductService implements ProductServiceLocal {
         return products;
     }
 
+	@Override
+	public Product createProduct(Product product) {
+		return defaultProductDao.createProduct(product);
+	}
+
 }

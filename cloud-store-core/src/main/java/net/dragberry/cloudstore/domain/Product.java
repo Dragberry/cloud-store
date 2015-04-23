@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -59,10 +60,10 @@ public class Product extends AbstractEntity {
     @JoinColumn(name = "main_image_id", referencedColumnName = "id")
     private Image mainImage;
     
-    /**
-     * A product can be associated with 0 or more categories.
-     */
-    @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "CATEGORY_PRODUCT", 
+        joinColumns = @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID"), 
+        inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID", referencedColumnName = "ID"))
     private Set<Category> categories;
     
     @Transient

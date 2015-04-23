@@ -25,6 +25,10 @@
 	<artifactId>cloud-store-business</artifactId>
 	<packaging>ejb</packaging>
 	<name>Cloud Store Business</name>
+	
+	<properties>
+		<net.sourceforge.jexcelapi-version>2.6.12</net.sourceforge.jexcelapi-version>
+	</properties>
 
 	<dependencyManagement>
 		<dependencies>
@@ -82,7 +86,11 @@
 		    <version>5.1.34</version>
         </dependency>
 		
-		
+		<dependency>
+			<groupId>net.sourceforge.jexcelapi</groupId>
+			<artifactId>jxl</artifactId>
+			<version>${net.sourceforge.jexcelapi-version}</version>
+		</dependency>
 
 		<!-- Import the Common Annotations API (JSR-250), we use provided scope 
 			as the API is included in JBoss EAP 6 -->

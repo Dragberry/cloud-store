@@ -18,4 +18,6 @@ public interface CategoryDao {
 	
 	TreeNode<Category> getCategoryTree();
 
+	Category fetchCategoryByTitle(String title);
+
 }

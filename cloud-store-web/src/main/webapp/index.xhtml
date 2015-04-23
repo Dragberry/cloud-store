@@ -13,6 +13,9 @@
 			</h2>
 			<h:outputText value="#{translation.formatStringWithKeys(item.text)}"/>
 		</p:outputPanel>
-	</ui:repeat>	
+	</ui:repeat>
+	<p:commandButton id="import"
+		value="Do import!"
+		action="#{dashboardBean.doImport()}"/>	
 </ui:define>
 </ui:composition>
