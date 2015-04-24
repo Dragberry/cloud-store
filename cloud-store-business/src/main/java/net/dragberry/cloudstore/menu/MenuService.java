@@ -9,7 +9,10 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import net.dragberry.cloudstore.business.CategoryServiceLocal;
+import net.dragberry.cloudstore.business.CustomerServiceLocal;
 import net.dragberry.cloudstore.domain.Category;
+import net.dragberry.cloudstore.domain.Customer;
+import net.dragberry.cloudstore.domain.CustomerRole;
 
 @Stateless
 public class MenuService implements MenuServiceLocal {
@@ -19,10 +22,15 @@ public class MenuService implements MenuServiceLocal {
 	
 	@Inject
 	private CategoryServiceLocal categoryService;
-
+	
+	@Inject
+	private CustomerServiceLocal customerService;
+	
 	@Override
-	public MainMenu getMainMenu() {
-		boolean isAdmin = sessionContext.isCallerInRole("admin");
+	public MainMenu initMainMenu(Customer customer) {
+		
+		sessionContext.isCallerInRole(CustomerRole.ROLE_ANONYMOUS);
+		boolean isAdmin = customerService.isCustomerInRoles(customer, CustomerRole.ROLE_ADMIN);
 		
 		MainMenu mainMenu = new MainMenu();
 		

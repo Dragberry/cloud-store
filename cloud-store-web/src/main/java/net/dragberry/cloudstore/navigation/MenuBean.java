@@ -7,6 +7,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.dragberry.cloudstore.auth.LoginBean;
 import net.dragberry.cloudstore.menu.MainMenu;
 import net.dragberry.cloudstore.menu.MenuServiceLocal;
 
@@ -21,13 +22,16 @@ public class MenuBean implements Serializable {
 	@Inject
 	private MenuServiceLocal menuService;
 	
+	@Inject
+	private LoginBean loginBean;
+	
 	@PostConstruct
 	public void initialise() {
-		mainMenu = menuService.getMainMenu();
+		mainMenu = menuService.initMainMenu(loginBean.getCustomer());
 	}
 	
 	public void reloadMenu() {
-		mainMenu = menuService.getMainMenu();
+		mainMenu = menuService.initMainMenu(loginBean.getCustomer());
 	}
 	
 	public MainMenu getMainMenu() {
